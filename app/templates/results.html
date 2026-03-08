@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recommendation Results</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero compact">
+      <div>
+        <p class="eyebrow">SOAS External Communications</p>
+        <h1>Recommendation Results</h1>
+        <p class="subtitle">Staff-facing review output. No outreach is automated.</p>
+      </div>
+      <a class="secondary-link" href="/">← New enquiry</a>
+    </header>
+
+    <main class="stack">
+      <section class="card">
+        <h2>Enquiry overview</h2>
+        <div class="meta-grid">
+          <div><strong>Enquiry ID:</strong> {{ result.enquiry_id }}</div>
+          <div><strong>Created:</strong> {{ (result.created_at|string).replace("T", " ").replace("+00:00", "")[:19] }} UTC</div>
+
+        </div>
+
+        <div class="status-row">
+          {% if result.verification.recognised_outlet %}
+            <span class="status-badge success">Recognised outlet</span>
+          {% else %}
+            <span class="status-badge warning">Unrecognised outlet</span>
+          {% endif %}
+
+          {% if result.verification.manual_review_required %}
+            <span class="status-badge warning">Manual review required</span>
+          {% else %}
+            <span class="status-badge success">Manual review not required</span>
+          {% endif %}
+        </div>
+
+        <div class="topic-row">
+          {% for label in result.topic_labels %}
+            <span class="chip">{{ label }}</span>
+          {% endfor %}
+        </div>
+
+        <p class="note">{{ result.verification.notes }}</p>
+
+        {% if result.staff_summary %}
+          <div class="summary-box">
+            <h3>Staff summary</h3>
+            <p>{{ result.staff_summary }}</p>
+          </div>
+        {% endif %}
+      </section>
+
+      <section class="card">
+        <h2>Recommended experts</h2>
+
+        {% if result.recommended_experts %}
+          <div class="expert-list">
+            {% for expert in result.recommended_experts %}
+              <article class="expert-card">
+                <div class="expert-header">
+                  <div>
+                    <div class="name-row">
+                      <h3>{{ expert.name }}</h3>
+                      <span class="confidence-badge {{ expert.confidence|lower }}">{{ expert.confidence }} confidence</span>
+                    </div>
+                    <p class="expert-title">{{ expert.title }}</p>
+                    <p class="expert-dept">{{ expert.department }}</p>
+                  </div>
+                  <div class="score-box">
+                    <span class="score-label">Match strength</span>
+                    <span class="score-value">{{ "%.2f"|format(expert.final_score) }}</span>
+                  </div>
+                </div>
+
+                {% if expert.topics %}
+                  <div class="topic-row">
+                    {% for topic in expert.topics[:6] %}
+                      <span class="chip soft">{{ topic }}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <p class="rationale">{{ expert.rationale }}</p>
+
+                {% if expert.diversity_note %}
+                  <p class="small-note">{{ expert.diversity_note }}</p>
+                {% endif %}
+
+                <p>
+                  <a href="{{ expert.source_url }}" target="_blank">View source profile</a>
+                </p>
+
+                <div class="evidence-block">
+                  <h4>Supporting evidence</h4>
+                  {% for chunk in expert.supporting_chunks %}
+                    <div class="evidence-item">
+                      <div class="evidence-meta">
+                        <span>{{ chunk.section }}</span>
+                        <span>Relevance: {{ "%.2f"|format(chunk.score) }}</span>
+                      </div>
+                      <p>{{ chunk.text[:420] }}{% if chunk.text|length > 420 %}…{% endif %}</p>
+                    </div>
+                  {% endfor %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p>No recommendations were returned. Manual handling is advised.</p>
+        {% endif %}
+      </section>
+
+      <section class="card approval-card">
+        <h2>Approval decision</h2>
+        <form method="post" action="/ui/approve" class="form">
+          <input type="hidden" name="enquiry_id" value="{{ result.enquiry_id }}" />
+
+          <label>
+            Reviewer name
+            <input type="text" name="reviewer_name" required />
+          </label>
+
+          <label>
+            Decision
+            <select name="decision" required>
+              <option value="approved">Approve</option>
+              <option value="rejected">Reject</option>
+              <option value="manual_review">Manual review</option>
+            </select>
+          </label>
+
+          <label>
+            Notes
+            <textarea name="notes" rows="4"></textarea>
+          </label>
+
+          <button type="submit" class="approve-button">Submit decision</button>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

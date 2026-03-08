@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOAS Press Office Assistant</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">SOAS External Communications</p>
+        <h1>Press Office Assistant</h1>
+        <p class="subtitle">
+          Grounded academic expert matching for media enquiries, with human review before outreach.
+        </p>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="card">
+        <h2>New media enquiry</h2>
+        <form method="post" action="/ui/process" class="form">
+          <label>
+            Sender name
+            <input type="text" name="sender_name" required placeholder="e.g. Jane Reporter" />
+          </label>
+
+          <label>
+            Sender email
+            <input type="email" name="sender_email" required placeholder="e.g. jane@bbc.co.uk" />
+          </label>
+
+          <label>
+            Outlet name
+            <input type="text" name="outlet_name" placeholder="e.g. BBC News" />
+          </label>
+
+          <label>
+            Subject
+            <input type="text" name="subject" required placeholder="e.g. Need an expert on migration and Gaza" />
+          </label>
+
+          <label>
+            Enquiry body
+            <textarea name="body" rows="8" required placeholder="Paste the media enquiry here..."></textarea>
+          </label>
+
+          <button type="submit">Generate recommendations</button>
+        </form>
+      </section>
+
+      <section class="card muted">
+        <h2>What this does</h2>
+        <ul>
+          <li>Verifies the sender using a proportionate ruleset</li>
+          <li>Classifies the enquiry theme</li>
+          <li>Retrieves grounded SOAS profile evidence</li>
+          <li>Ranks suitable academic experts</li>
+          <li>Requires staff approval before outreach</li>
+        </ul>
+
+        <div class="prototype-note">
+          Prototype for internal demonstration only. Recommendations are decision support outputs and must be reviewed by staff before any action.
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

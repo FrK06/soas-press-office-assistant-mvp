@@ -1,53 +1,88 @@
 from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
-from app.db import get_enquiry, init_db
 from app.enquiry.approval import record_approval
 from app.enquiry.processor import process_enquiry
 from app.schemas import ApprovalDecision, MediaEnquiry
 
-app = FastAPI(title='SOAS Press Office Assistant')
+app = FastAPI(title="SOAS Press Office Assistant")
+
+templates = Jinja2Templates(directory="app/templates")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
-@app.on_event('startup')
-def startup() -> None:
-    init_db()
+@app.get("/", response_class=HTMLResponse)
+def ui_home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.get('/health')
-def health() -> dict:
-    return {'status': 'ok'}
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 
-@app.post('/enquiries/process')
-def process_media_enquiry(enquiry: MediaEnquiry) -> dict:
+@app.post("/enquiries/process")
+def process_media_enquiry(enquiry: MediaEnquiry):
     return process_enquiry(
         sender_name=enquiry.sender_name,
-        sender_email=str(enquiry.sender_email),
+        sender_email=enquiry.sender_email,
         outlet_name=enquiry.outlet_name,
         subject=enquiry.subject,
         body=enquiry.body,
-        enquiry_id=enquiry.enquiry_id,
     )
 
 
-@app.post('/enquiries/approval')
-def submit_approval(decision: ApprovalDecision) -> dict:
-    existing = get_enquiry(decision.enquiry_id)
-    if not existing:
-        raise HTTPException(status_code=404, detail='Enquiry not found')
-    return record_approval(
-        enquiry_id=decision.enquiry_id,
-        decision=decision.decision,
-        reviewer_name=decision.reviewer_name,
-        notes=decision.notes,
+@app.post("/ui/process", response_class=HTMLResponse)
+def ui_process(
+    request: Request,
+    sender_name: str = Form(...),
+    sender_email: str = Form(...),
+    outlet_name: str = Form(""),
+    subject: str = Form(...),
+    body: str = Form(...),
+):
+    result = process_enquiry(
+        sender_name=sender_name,
+        sender_email=sender_email,
+        outlet_name=outlet_name or None,
+        subject=subject,
+        body=body,
+    )
+    return templates.TemplateResponse("results.html", {"request": request, "result": result})
+
+
+@app.post("/enquiries/approval")
+def create_approval(decision: ApprovalDecision):
+    return record_approval(decision)
+
+
+@app.post("/ui/approve", response_class=HTMLResponse)
+def ui_approve(
+    request: Request,
+    enquiry_id: str = Form(...),
+    decision: str = Form(...),
+    reviewer_name: str = Form(...),
+    notes: str = Form(""),
+):
+    payload = ApprovalDecision(
+        enquiry_id=enquiry_id,
+        decision=decision,
+        reviewer_name=reviewer_name,
+        notes=notes or None,
     )
 
+    approval = record_approval(
+        enquiry_id=payload.enquiry_id,
+        decision=payload.decision,
+        reviewer_name=payload.reviewer_name,
+        notes=payload.notes,
+    )
 
-@app.get('/enquiries/{enquiry_id}')
-def fetch_enquiry(enquiry_id: str) -> dict:
-    item = get_enquiry(enquiry_id)
-    if not item:
-        raise HTTPException(status_code=404, detail='Enquiry not found')
-    return item
+    return templates.TemplateResponse(
+        "approval_result.html",
+        {"request": request, "approval": approval},
+    )

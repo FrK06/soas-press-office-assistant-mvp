@@ -93,6 +93,23 @@ def _compute_media_signal_boost(expert: dict) -> float:
     return 0.0
 
 
+def _truncate_title(title: str | None, max_len: int = 140) -> str | None:
+    if not title:
+        return None
+    title = re.sub(r"\s+", " ", title).strip()
+    if len(title) <= max_len:
+        return title
+    return title[: max_len - 1].rstrip() + "…"
+
+
+def _confidence_label(final_score: float, hit_count: int, best_chunk_score: float) -> str:
+    if final_score >= 1.2 and (hit_count >= 2 or best_chunk_score >= 0.72):
+        return "High"
+    if final_score >= 0.8 and (hit_count >= 1 or best_chunk_score >= 0.62):
+        return "Medium"
+    return "Low"
+
+
 def _make_rationale(expert: dict, matched_terms: list[str]) -> str:
     section_labels = ", ".join(sorted({c["section"] for c in expert["supporting_chunks"]}))
     if matched_terms:
@@ -184,10 +201,14 @@ def rank_experts(
         else:
             expert["diversity_note"] = None
 
+        expert["title"] = _truncate_title(expert.get("title"))
+        expert["confidence"] = _confidence_label(
+            final_score=expert["final_score"],
+            hit_count=expert["hit_count"],
+            best_chunk_score=best_chunk_score,
+        )
         expert["rationale"] = _make_rationale(expert, matched_terms)
 
-        # Filter weak recommendations:
-        # keep if expert has 2+ hits OR one strong hit, and overall score passes threshold
         if not (
             (expert["hit_count"] >= 2 or best_chunk_score >= MIN_SINGLE_CHUNK_SCORE)
             and expert["final_score"] >= MIN_FINAL_SCORE
