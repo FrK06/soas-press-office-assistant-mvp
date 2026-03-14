@@ -1,0 +1,22 @@
+{
+  "profile_id": "soas-dr-kate-grady",
+  "name": "Dr Kate Grady",
+  "title": "Senior Lecturer in Law, PhD Admissions Tutor",
+  "department": "College of Law",
+  "expertise_topics": [
+    "Military law",
+    "criminal law",
+    "international criminal law",
+    "peace and security",
+    "peacekeeping",
+    "critical legal theories"
+  ],
+  "biography": "Kate is a Senior Lecturer in Law at SOAS University of London, where she researches international law and critical legal theories.",
+  "research_interests": "Military law, criminal law, international criminal law, peace and security, peacekeeping, critical legal theories",
+  "publications": "https://www.soas.ac.uk/about/governance/colleges/college-law",
+  "languages": [],
+  "source_url": "https://www.soas.ac.uk/about/kate-grady",
+  "last_checked": "2026-02-22 00:00:00",
+  "content_hash": "f036cf9cfedd7290ec2d3bef693d4294aa90e17e1d8fc40661f58cb126a7fd49",
+  "email_contact": "kate.grady@soas.ac.uk"
+}

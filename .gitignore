@@ -1,4 +1,4 @@
-.venv/
+﻿.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -17,5 +17,3 @@ htmlcov/
 Thumbs.db
 
 SOAS_profiles.xlsx
-data/processed_profiles/*.json
-!data/processed_profiles/.gitkeep

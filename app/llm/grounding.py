@@ -1,5 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
+from app.config import settings
 from app.llm.client import get_openai_client
 from app.llm.prompts import RECOMMENDATION_PROMPT
 
@@ -19,5 +20,5 @@ def generate_staff_summary(enquiry_text: str, experts: list[dict]) -> str:
     )
 
     client = get_openai_client()
-    response = client.responses.create(model='gpt-4.1-mini', input=prompt)
-    return response.output_text
+    response = client.responses.create(model=settings.llm_model, input=prompt)
+    return response.output_text.strip()

@@ -1,9 +1,12 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, EmailStr, Field, HttpUrl
+
+
+ConfidenceLabel = Literal['High', 'Medium', 'Low']
 
 
 class ProfileDocument(BaseModel):
@@ -56,11 +59,13 @@ class RetrievedChunk(BaseModel):
     chunk_id: str
     profile_id: str
     name: str
+    title: str | None = None
     department: str | None = None
     section: str
     text: str
     source_url: HttpUrl
     score: float
+    topics: list[str] = Field(default_factory=list)
 
 
 class ExpertRecommendation(BaseModel):
@@ -72,6 +77,8 @@ class ExpertRecommendation(BaseModel):
     rationale: str
     supporting_chunks: list[RetrievedChunk]
     final_score: float
+    topics: list[str] = Field(default_factory=list)
+    confidence: ConfidenceLabel
     diversity_note: str | None = None
 
 

@@ -1,6 +1,7 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from collections import defaultdict
+from dataclasses import asdict, dataclass
 import re
 
 
@@ -31,6 +32,18 @@ MEDIA_SIGNAL_TERMS = [
     "broadcast",
     "press",
 ]
+
+
+@dataclass(frozen=True, slots=True)
+class RankerConfig:
+    enable_topic_boosts: bool = True
+    enable_media_signal_boost: bool = True
+    enable_diversity_penalty: bool = True
+    min_single_chunk_score: float = MIN_SINGLE_CHUNK_SCORE
+    min_final_score: float = MIN_FINAL_SCORE
+
+
+DEFAULT_RANKER_CONFIG = RankerConfig()
 
 
 def _normalize(text: str | None) -> str:
@@ -99,7 +112,7 @@ def _truncate_title(title: str | None, max_len: int = 140) -> str | None:
     title = re.sub(r"\s+", " ", title).strip()
     if len(title) <= max_len:
         return title
-    return title[: max_len - 1].rstrip() + "…"
+    return title[: max_len - 1].rstrip() + "..."
 
 
 def _confidence_label(final_score: float, hit_count: int, best_chunk_score: float) -> str:
@@ -110,12 +123,17 @@ def _confidence_label(final_score: float, hit_count: int, best_chunk_score: floa
     return "Low"
 
 
-def _make_rationale(expert: dict, matched_terms: list[str]) -> str:
+def _make_rationale(expert: dict, matched_terms: list[str], topic_boost_applied: bool) -> str:
     section_labels = ", ".join(sorted({c["section"] for c in expert["supporting_chunks"]}))
     if matched_terms:
+        overlap_text = (
+            f"Boosted by overlap with enquiry themes: {', '.join(matched_terms)}. "
+            if topic_boost_applied
+            else f"Observed overlap with enquiry themes: {', '.join(matched_terms)}. "
+        )
         return (
             f"Matched on retrieved evidence from {section_labels}. "
-            f"Boosted by overlap with enquiry themes: {', '.join(matched_terms)}. "
+            f"{overlap_text}"
             f"Recommendation is grounded in profile content and should be reviewed by staff before outreach."
         )
     return (
@@ -124,12 +142,18 @@ def _make_rationale(expert: dict, matched_terms: list[str]) -> str:
     )
 
 
+def ranker_config_to_dict(config: RankerConfig | None) -> dict[str, bool | float]:
+    return asdict(config or DEFAULT_RANKER_CONFIG)
+
+
 def rank_experts(
     chunks: list[dict],
     top_k: int = 5,
     query_text: str = "",
     topic_labels: list[str] | None = None,
+    config: RankerConfig | None = None,
 ) -> list[dict]:
+    resolved_config = config or DEFAULT_RANKER_CONFIG
     grouped: dict[str, dict] = defaultdict(
         lambda: {
             "profile_id": "",
@@ -176,8 +200,16 @@ def rank_experts(
 
         best_chunk_score = max((c["score"] for c in expert["supporting_chunks"]), default=0.0)
 
-        topic_boost = _compute_topic_boost(expert, query_terms)
-        media_boost = _compute_media_signal_boost(expert)
+        topic_boost = (
+            _compute_topic_boost(expert, query_terms)
+            if resolved_config.enable_topic_boosts
+            else 0.0
+        )
+        media_boost = (
+            _compute_media_signal_boost(expert)
+            if resolved_config.enable_media_signal_boost
+            else 0.0
+        )
         expert["final_score"] += topic_boost + media_boost
 
         matched_terms = []
@@ -195,7 +227,7 @@ def rank_experts(
             if term in searchable_text:
                 matched_terms.append(term)
 
-        if expert["hit_count"] > 3:
+        if resolved_config.enable_diversity_penalty and expert["hit_count"] > 3:
             expert["final_score"] -= FAIRNESS_PENALTY_REPEAT
             expert["diversity_note"] = "Small penalty applied to reduce concentration on repeated chunk hits."
         else:
@@ -207,11 +239,15 @@ def rank_experts(
             hit_count=expert["hit_count"],
             best_chunk_score=best_chunk_score,
         )
-        expert["rationale"] = _make_rationale(expert, matched_terms)
+        expert["rationale"] = _make_rationale(
+            expert,
+            matched_terms,
+            topic_boost_applied=resolved_config.enable_topic_boosts,
+        )
 
         if not (
-            (expert["hit_count"] >= 2 or best_chunk_score >= MIN_SINGLE_CHUNK_SCORE)
-            and expert["final_score"] >= MIN_FINAL_SCORE
+            (expert["hit_count"] >= 2 or best_chunk_score >= resolved_config.min_single_chunk_score)
+            and expert["final_score"] >= resolved_config.min_final_score
         ):
             continue
 

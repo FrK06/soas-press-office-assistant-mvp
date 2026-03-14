@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -14,7 +14,7 @@
         <h1>Recommendation Results</h1>
         <p class="subtitle">Staff-facing review output. No outreach is automated.</p>
       </div>
-      <a class="secondary-link" href="/">← New enquiry</a>
+      <a class="secondary-link" href="/">Back to new enquiry</a>
     </header>
 
     <main class="stack">
@@ -23,7 +23,6 @@
         <div class="meta-grid">
           <div><strong>Enquiry ID:</strong> {{ result.enquiry_id }}</div>
           <div><strong>Created:</strong> {{ (result.created_at|string).replace("T", " ").replace("+00:00", "")[:19] }} UTC</div>
-
         </div>
 
         <div class="status-row">
@@ -104,7 +103,7 @@
                         <span>{{ chunk.section }}</span>
                         <span>Relevance: {{ "%.2f"|format(chunk.score) }}</span>
                       </div>
-                      <p>{{ chunk.text[:420] }}{% if chunk.text|length > 420 %}…{% endif %}</p>
+                      <p>{{ chunk.text[:420] }}{% if chunk.text|length > 420 %}...{% endif %}</p>
                     </div>
                   {% endfor %}
                 </div>

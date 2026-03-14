@@ -1,19 +1,19 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
-RECOGNISED_DOMAINS = {
-    'bbc.co.uk',
-    'theguardian.com',
-    'reuters.com',
-    'ft.com',
-    'channel4.com',
-    'itv.com',
-    'sky.uk',
-}
+from app.config import settings
+
+
+def _normalize_domain(value: str) -> str:
+    return value.strip().lower().lstrip('@')
+
+
+def _domain_in_allowlist(domain: str, allowlist: tuple[str, ...]) -> bool:
+    return any(domain == allowed or domain.endswith(f'.{allowed}') for allowed in allowlist)
 
 
 def verify_enquiry(sender_email: str, outlet_name: str | None = None) -> dict:
-    domain = sender_email.split('@')[-1].lower()
-    recognised = domain in RECOGNISED_DOMAINS
+    domain = _normalize_domain(sender_email.split('@')[-1])
+    recognised = _domain_in_allowlist(domain, settings.recognised_outlet_domains)
     freelancer_pathway = not recognised and bool(outlet_name)
     manual_review_required = not recognised
     notes = (

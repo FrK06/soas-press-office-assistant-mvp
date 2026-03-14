@@ -1,0 +1,249 @@
+﻿{
+    "experiment":  "E2 Selective Prediction / Abstention",
+    "baseline_reference":  {
+                               "n_cases":  100,
+                               "top1_accuracy":  0.62,
+                               "top3_accuracy":  0.92,
+                               "top5_accuracy":  0.97,
+                               "precision_at_3":  0.39,
+                               "mrr":  0.7637,
+                               "coverage":  1,
+                               "approval_proxy_rate":  0.92,
+                               "mean_recommended_count":  3.55,
+                               "mean_supporting_chunk_count":  6.68,
+                               "recognised_outlet_rate":  0.6,
+                               "manual_review_rate":  0.4,
+                               "recommendation_concentration_top10":  [
+                                                                          {
+                                                                              "expert":  "Dr Sonali Deraniyagala",
+                                                                              "count":  11
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Dr Giuseppina Siciliano",
+                                                                              "count":  9
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Dr Althea-Maria Rivas",
+                                                                              "count":  9
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Dr Lorena Lombardozzi",
+                                                                              "count":  9
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Professor Julia Sallabank",
+                                                                              "count":  9
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Professor Lutz Marten",
+                                                                              "count":  9
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Professor Laixiang Sun",
+                                                                              "count":  8
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Dr Risa Morimoto",
+                                                                              "count":  8
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Dr Miguel Nino-Zarazua",
+                                                                              "count":  8
+                                                                          },
+                                                                          {
+                                                                              "expert":  "Professor Rachel V Harrison",
+                                                                              "count":  8
+                                                                          }
+                                                                      ]
+                           },
+    "default_setting_key":  "single_0.60_final_0.62",
+    "definitions":  {
+                        "coverage":  "Proportion of cases with at least one returned recommendation after thresholding.",
+                        "abstention":  "A case with zero returned recommendations after thresholding."
+                    },
+    "settings":  {
+                     "single_0.55_final_0.57":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.55,
+                                                                   "min_final_score":  0.57
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.92,
+                                                                    "covered_case_mrr":  0.7682,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.92,
+                                                                    "mean_recommended_count":  4.83
+                                                                }
+                                                },
+                     "single_0.55_final_0.62":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.55,
+                                                                   "min_final_score":  0.62
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.92,
+                                                                    "covered_case_mrr":  0.7637,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.92,
+                                                                    "mean_recommended_count":  3.76
+                                                                }
+                                                },
+                     "single_0.55_final_0.67":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.55,
+                                                                   "min_final_score":  0.67
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.9,
+                                                                    "covered_case_mrr":  0.7553,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.9,
+                                                                    "mean_recommended_count":  3.05
+                                                                }
+                                                },
+                     "single_0.60_final_0.57":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.6,
+                                                                   "min_final_score":  0.57
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.92,
+                                                                    "covered_case_mrr":  0.7637,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.92,
+                                                                    "mean_recommended_count":  4.11
+                                                                }
+                                                },
+                     "single_0.60_final_0.62":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.6,
+                                                                   "min_final_score":  0.62
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.92,
+                                                                    "covered_case_mrr":  0.762,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.92,
+                                                                    "mean_recommended_count":  3.56
+                                                                }
+                                                },
+                     "single_0.60_final_0.67":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.6,
+                                                                   "min_final_score":  0.67
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.9,
+                                                                    "covered_case_mrr":  0.7553,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.9,
+                                                                    "mean_recommended_count":  2.95
+                                                                }
+                                                },
+                     "single_0.65_final_0.57":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.65,
+                                                                   "min_final_score":  0.57
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.92,
+                                                                    "covered_case_mrr":  0.7595,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.92,
+                                                                    "mean_recommended_count":  2.91
+                                                                }
+                                                },
+                     "single_0.65_final_0.62":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.65,
+                                                                   "min_final_score":  0.62
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.92,
+                                                                    "covered_case_mrr":  0.7595,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.92,
+                                                                    "mean_recommended_count":  2.9
+                                                                }
+                                                },
+                     "single_0.65_final_0.67":  {
+                                                    "config":  {
+                                                                   "enable_topic_boosts":  true,
+                                                                   "enable_media_signal_boost":  true,
+                                                                   "enable_diversity_penalty":  true,
+                                                                   "min_single_chunk_score":  0.65,
+                                                                   "min_final_score":  0.67
+                                                               },
+                                                    "metrics":  {
+                                                                    "n_cases":  100,
+                                                                    "coverage":  1.0,
+                                                                    "abstention_rate":  0.0,
+                                                                    "covered_case_top1_accuracy":  0.62,
+                                                                    "covered_case_top3_accuracy":  0.91,
+                                                                    "covered_case_mrr":  0.7562,
+                                                                    "overall_top1_accuracy":  0.62,
+                                                                    "overall_top3_accuracy":  0.91,
+                                                                    "mean_recommended_count":  2.82
+                                                                }
+                                                }
+                 },
+    "tradeoff_candidates":  [
+
+                            ]
+}

@@ -1,0 +1,75 @@
+{
+  "source_workbook": "SOAS_profiles.xlsx",
+  "n_profiles_in_source": 226,
+  "n_usable_profiles_with_topics": 181,
+  "n_generated_cases": 100,
+  "department_distribution_in_source": {
+    "Department of Development Studies": 33,
+    "Department of Economics": 49,
+    "School of Finance and Management": 25,
+    "School of Languages, Cultures and Linguistics": 72,
+    "Department of History": 1,
+    "College of Humanities": 1,
+    "College of Law": 40,
+    "School of Anthropology, Media and Gender": 5
+  },
+  "department_distribution_in_generated_set": {
+    "College of Humanities": 1,
+    "College of Law": 15,
+    "Department of Development Studies": 17,
+    "Department of Economics": 23,
+    "Department of History": 1,
+    "School of Anthropology, Media and Gender": 3,
+    "School of Finance and Management": 12,
+    "School of Languages, Cultures and Linguistics": 28
+  },
+  "recognised_outlet_cases": 60,
+  "manual_review_style_cases": 40,
+  "example_rows": [
+    {
+      "test_id": "T001",
+      "sender_name": "Test Reporter 001",
+      "sender_email": "reporter1@bbc.co.uk",
+      "outlet_name": "BBC News",
+      "subject": "Need an expert on Japanese Media and Television drama",
+      "body": "Looking for academic comment on Japanese Media and Television drama. Interested in policy implications, regional context, and current developments.",
+      "expected_experts": "Dr Griseldis Kirsch|Professor Costas Lapavitsas|Dr Helen Macnaughtan"
+    },
+    {
+      "test_id": "T002",
+      "sender_name": "Test Reporter 002",
+      "sender_email": "reporter2@reuters.com",
+      "outlet_name": "Reuters",
+      "subject": "Need an expert on Gaofeng and Contributions to Political Economy (44",
+      "body": "Looking for academic comment on Gaofeng, Contributions to Political Economy (44, Studies in Marxism (Political Studies Association. Marxism Specialist Group) (16, and Simon and Meng. Interested in policy implications, regional context, and current developments.",
+      "expected_experts": "Dr Gaofeng Meng|Dr Lorena Lombardozzi|Dr Iris Nikolopoulou"
+    },
+    {
+      "test_id": "T003",
+      "sender_name": "Test Reporter 003",
+      "sender_email": "reporter3@ft.com",
+      "outlet_name": "Financial Times",
+      "subject": "Need an expert on International economic law and OHADA law",
+      "body": "Looking for academic comment on International economic law, OHADA law, law and development (especially market creation, and market integration. Interested in policy implications, regional context, and current developments.",
+      "expected_experts": "Dr Jonathan Bashi Rudahindwa|Professor Ulrich Volz|Professor Michael Jennings"
+    },
+    {
+      "test_id": "T004",
+      "sender_name": "Test Reporter 004",
+      "sender_email": "writer4@gmail.com",
+      "outlet_name": "Freelance journalist",
+      "subject": "Need an expert on Legal history and comparative international laws",
+      "body": "Looking for academic comment on Legal history, comparative international laws, property law, and colonial slavery laws. Interested in policy implications, regional context, and current developments.",
+      "expected_experts": "Dr Justine K Collins|Professor Eddie Bruce-Jones|Dr Olivia Lwabukuna"
+    },
+    {
+      "test_id": "T005",
+      "sender_name": "Test Reporter 005",
+      "sender_email": "writer5@yahoo.com",
+      "outlet_name": "Independent writer",
+      "subject": "Need an expert on Law and colonialism and Law and society in South Asia (especially gender issues",
+      "body": "Looking for academic comment on Law and colonialism, Law and society in South Asia (especially gender issues, image, and and architecture. Interested in policy implications, regional context, and current developments.",
+      "expected_experts": "Dr Kanika Sharma|Professor Samia Bano|Dr Mulaika Hijjas"
+    }
+  ]
+}

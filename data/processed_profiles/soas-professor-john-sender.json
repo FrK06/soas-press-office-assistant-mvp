@@ -1,0 +1,20 @@
+{
+  "profile_id": "soas-professor-john-sender",
+  "name": "Professor John Sender",
+  "title": "Emeritus Professor of Economics",
+  "department": "Department of Economics",
+  "expertise_topics": [
+    "Rural Development",
+    "Labour Markets",
+    "Industrialisation",
+    "Africa and Asia"
+  ],
+  "biography": "Professor John Sender is an emeritus professor at the Department of Economics of SOAS. He has been Head of the Economics Department and Member of the Governing Body, SOAS, (1996-1998). Lectured at the Universities of Dar es Salaam, Edinburgh and Cambridge. Appointments have included: Director of the African Studies Centre, University of Cambridge; Professor of Political Economy, University of the Witwatersrand; Senior Visiting Research Fellow at the African Studies Centre, Leiden (2003-5); Economic advisor in the Offices of the President of South Africa and the Prime Minister of Ethiopia.",
+  "research_interests": "Rural Development, Labour Markets, Industrialisation, Africa and Asia.",
+  "publications": "https://www.soas.ac.uk/; https://www.soas.ac.uk/about; https://www.soas.ac.uk/about/colleges/college-social-sciences/department-economics; https://www.soas.ac.uk/ramp-university-network; https://www.soas.ac.uk/study/find-course/msc-economics; mailto:js9@soas.ac.uk",
+  "languages": [],
+  "source_url": "https://www.soas.ac.uk/about/john-sender",
+  "last_checked": "2026-02-21",
+  "content_hash": "c770b1ef4ea9788c84148af4e736b2015a6fa912a03f42b2a10d94ed63f1b8af",
+  "email_contact": "js9@soas.ac.uk"
+}
