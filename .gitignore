@@ -1,4 +1,4 @@
-﻿.venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -17,3 +17,11 @@ htmlcov/
 Thumbs.db
 
 SOAS_profiles.xlsx
+
+# Temporary local run artefacts
+pending_e4_rows.txt
+tmp_uvicorn.err
+tmp_uvicorn.out
+data/evaluation/*_stdout.log
+data/evaluation/*_stderr.log
+data/evaluation/*.pid

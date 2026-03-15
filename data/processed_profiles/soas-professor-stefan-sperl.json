@@ -6,13 +6,13 @@
   "expertise_topics": [
     "Arabic Literature Classical and Modern",
     "Comparative Literature",
-    "Qur’an and Hadith Studies",
+    "Qur'an and Hadith Studies",
     "Islamic Art",
     "Sufism and Neoplatonism",
     "Refugee and Exile Studies"
   ],
-  "biography": "Stefan Sperl studied Arabic at Oxford and the American University in Cairo and did his postgraduate research at SOAS.",
-  "research_interests": "Arabic Literature Classical and Modern; Comparative Literature; Qur’an and Hadith Studies; Islamic Art; Sufism and Neoplatonism; Refugee and Exile Studies",
+  "biography": null,
+  "research_interests": "Arabic Literature Classical and Modern; Comparative Literature; Qur'an and Hadith Studies; Islamic Art; Sufism and Neoplatonism; Refugee and Exile Studies",
   "publications": "https://www.soas.ac.uk/; https://www.soas.ac.uk/about; https://www.soas.ac.uk/about/colleges-schools-and-departments/college-humanities/school-languages-cultures-and-linguistics; https://www.soas.ac.uk/study/find-course/ba-chinese; https://www.soas.ac.uk/study/find-course/ba-japanese; https://www.soas.ac.uk/study/find-course/ma-south-asian-area-studies; mailto:ss6@soas.ac.uk",
   "languages": [
     "Arabic",
@@ -20,7 +20,6 @@
     "Japanese"
   ],
   "source_url": "https://www.soas.ac.uk/about/stefan-sperl",
-  "last_checked": "2026-02-21",
-  "content_hash": "2b46fbed43f10a5b1e6965753e2235a3253d4e7f69522fd5bd898f19b315f3b5",
-  "email_contact": "ss6@soas.ac.uk"
+  "last_checked": "2026-03-08",
+  "content_hash": "98afdbbdc820d053e1e6f93b41b11ba0212280a50757f4b54ad82bffd492a8ba"
 }

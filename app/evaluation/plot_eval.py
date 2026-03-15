@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import csv
 import json
+from collections import Counter
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 
 
 INPUT_JSON = Path("data/evaluation/evaluation_results.json")
+INPUT_CSV = Path("data/evaluation/evaluation_detailed_results.csv")
 OUTPUT_DIR = Path("data/evaluation")
 
 
@@ -15,6 +18,34 @@ def load_results(path: Path) -> dict:
         raise FileNotFoundError(f"Evaluation results not found: {path}")
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def load_case_rows(path: Path) -> list[dict]:
+    if not path.exists():
+        raise FileNotFoundError(f"Evaluation case results not found: {path}")
+    with path.open("r", encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def format_metric(value: float) -> str:
+    formatted = f"{value:.4f}".rstrip("0").rstrip(".")
+    if "." not in formatted:
+        formatted += ".0"
+    return formatted
+
+
+def compute_concentration(case_rows: list[dict]) -> list[dict]:
+    counter: Counter[str] = Counter()
+    for row in case_rows:
+        experts = [item.strip() for item in row.get("predicted_experts", "").split("|") if item.strip()]
+        counter.update(experts)
+    return [{"expert": expert, "count": count} for expert, count in counter.most_common(10)]
+
+
+def compute_verification_counts(case_rows: list[dict]) -> tuple[int, int]:
+    recognised = sum(1 for row in case_rows if row.get("recognised_outlet") == "True")
+    manual_review = sum(1 for row in case_rows if row.get("manual_review_required") == "True")
+    return recognised, manual_review
 
 
 def plot_main_metrics(metrics: dict, output_path: Path) -> None:
@@ -40,7 +71,7 @@ def plot_main_metrics(metrics: dict, output_path: Path) -> None:
     fig, ax = plt.subplots(figsize=(10, 6))
     bars = ax.bar(labels, values)
 
-    ax.set_title("Figure 12. Automated evaluation metrics for the Press Office Assistant MVP")
+    ax.set_title("Figure 12. Automated evaluation metrics for the final accepted system")
     ax.set_ylabel("Score")
     ax.set_ylim(0, 1.05)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
@@ -50,7 +81,7 @@ def plot_main_metrics(metrics: dict, output_path: Path) -> None:
         ax.text(
             bar.get_x() + bar.get_width() / 2,
             value + 0.02,
-            f"{value:.2f}",
+            format_metric(value),
             ha="center",
             va="bottom",
             fontsize=10,
@@ -61,21 +92,18 @@ def plot_main_metrics(metrics: dict, output_path: Path) -> None:
     plt.close(fig)
 
 
-def plot_concentration(metrics: dict, output_path: Path) -> None:
-    concentration = metrics.get("recommendation_concentration_top10", [])
+def plot_concentration(case_rows: list[dict], output_path: Path) -> None:
+    concentration = compute_concentration(case_rows)
     if not concentration:
         raise ValueError("No recommendation concentration data found.")
 
-    experts = [item["expert"] for item in concentration]
-    counts = [item["count"] for item in concentration]
-
-    experts = experts[::-1]
-    counts = counts[::-1]
+    experts = [item["expert"] for item in concentration][::-1]
+    counts = [item["count"] for item in concentration][::-1]
 
     fig, ax = plt.subplots(figsize=(11, 7))
     bars = ax.barh(experts, counts)
 
-    ax.set_title("Figure 13. Recommendation concentration across the evaluation set")
+    ax.set_title("Figure 13. Recommendation concentration across the final evaluation set")
     ax.set_xlabel("Number of recommendations")
     ax.grid(axis="x", linestyle="--", alpha=0.4)
     ax.set_axisbelow(True)
@@ -94,21 +122,23 @@ def plot_concentration(metrics: dict, output_path: Path) -> None:
     plt.close(fig)
 
 
-def plot_verification_distribution(metrics: dict, output_path: Path) -> None:
-    recognized = metrics["recognised_outlet_rate"]
-    manual_review = metrics["manual_review_rate"]
-
-    labels = ["Recognised outlet", "Manual review required"]
-    values = [recognized, manual_review]
+def plot_verification_distribution(case_rows: list[dict], output_path: Path) -> None:
+    recognised_count, manual_review_count = compute_verification_counts(case_rows)
+    total = len(case_rows)
+    labels = [
+        f"Recognised outlet\n({recognised_count}/{total})",
+        f"Manual review required\n({manual_review_count}/{total})",
+    ]
+    values = [recognised_count, manual_review_count]
 
     fig, ax = plt.subplots(figsize=(7, 7))
-    wedges, texts, autotexts = ax.pie(
+    ax.pie(
         values,
         labels=labels,
         autopct=lambda p: f"{p:.1f}%",
         startangle=90,
     )
-    ax.set_title("Figure 14. Verification pathway distribution across the evaluation set")
+    ax.set_title("Figure 14. Verification pathway distribution across the final evaluation set")
     ax.axis("equal")
 
     fig.tight_layout()
@@ -132,7 +162,7 @@ def plot_shortlist_depth(metrics: dict, output_path: Path) -> None:
     ax.grid(True, linestyle="--", alpha=0.4)
 
     for x, y in zip(labels, values):
-        ax.text(x, y + 0.03, f"{y:.2f}", ha="center", va="bottom", fontsize=10)
+        ax.text(x, y + 0.03, format_metric(y), ha="center", va="bottom", fontsize=10)
 
     fig.tight_layout()
     fig.savefig(output_path, dpi=300, bbox_inches="tight")
@@ -159,7 +189,7 @@ def plot_hit_vs_precision(metrics: dict, output_path: Path) -> None:
         ax.text(
             bar.get_x() + bar.get_width() / 2,
             value + 0.02,
-            f"{value:.2f}",
+            format_metric(value),
             ha="center",
             va="bottom",
             fontsize=10,
@@ -174,12 +204,18 @@ def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     results = load_results(INPUT_JSON)
+    case_rows = load_case_rows(INPUT_CSV)
     metrics = results["metrics"]
+
+    if len(case_rows) != metrics["n_cases"]:
+        raise ValueError(
+            f"Mismatch between JSON n_cases ({metrics['n_cases']}) and detailed CSV rows ({len(case_rows)})."
+        )
 
     files = {
         "figure_12_main_metrics.png": lambda p: plot_main_metrics(metrics, p),
-        "figure_13_concentration.png": lambda p: plot_concentration(metrics, p),
-        "figure_14_verification_distribution.png": lambda p: plot_verification_distribution(metrics, p),
+        "figure_13_concentration.png": lambda p: plot_concentration(case_rows, p),
+        "figure_14_verification_distribution.png": lambda p: plot_verification_distribution(case_rows, p),
         "figure_15_shortlist_depth.png": lambda p: plot_shortlist_depth(metrics, p),
         "figure_16_hit_vs_precision.png": lambda p: plot_hit_vs_precision(metrics, p),
     }

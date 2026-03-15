@@ -1,15 +1,15 @@
-﻿import sqlite3
+import sqlite3
 
 from app.config import settings
 from app.db import init_db
 from app.enquiry.processor import process_enquiry
-from app.evaluation.run_eval import EvalCase, evaluate_case
+from app.evaluation.common import EvalCase, evaluate_case
 
 
 def _patch_retrieval(monkeypatch, sample_chunks, sample_experts) -> None:
     monkeypatch.setattr('app.enquiry.processor.retrieve_chunks', lambda query: sample_chunks)
 
-    def fake_rank_experts(chunks, top_k=5, query_text='', topic_labels=None, config=None):
+    def fake_rank_experts(chunks, top_k=5, query_text='', topic_labels=None, query_keyphrases=None, config=None):
         return sample_experts
 
     monkeypatch.setattr('app.enquiry.processor.rank_experts', fake_rank_experts)
@@ -111,3 +111,4 @@ def test_process_enquiry_falls_back_when_llm_summary_fails(tmp_path, monkeypatch
     )
 
     assert result['staff_summary'].startswith('Strongest matches are Dr Anna Lindley')
+

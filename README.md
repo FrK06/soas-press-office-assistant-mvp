@@ -35,7 +35,7 @@ Enquiry intake
 - Grounded retrieval from structured academic profile content
 - Approval-gated workflow before any outreach
 - Configurable recognised-outlet verification rules
-- Expert ranking using semantic retrieval plus topic-aware boosting
+- Expert ranking using section-aware, evidence-first aggregation
 - Evidence-linked recommendations with supporting chunks and source URLs
 - Optional LLM-generated staff summaries with deterministic fallback
 - Audit logging for enquiries and approval decisions
@@ -190,8 +190,9 @@ curl -X POST http://127.0.0.1:8000/enquiries/approval \
 
 The repository includes:
 
-- gold datasets in `data/evaluation/`
-- an evaluation runner at `app/evaluation/run_eval.py`
+- versioned benchmark datasets in `data/evaluation/benchmarks/`
+- a baseline evaluation runner at `app/evaluation/run_eval.py`
+- focused academic evaluation utilities in `app/evaluation/run_focused_eval.py`
 - plotting utilities at `app/evaluation/plot_eval.py`
 - generated JSON, CSV, and figure outputs in `data/evaluation/`
 
@@ -201,26 +202,38 @@ Run the test suite from the repo root with:
 python -m pytest
 ```
 
-Run the evaluation scripts with:
+### Default cleaned benchmark
+
+The default evaluation path uses the cleaned ranking benchmark in `data/evaluation/benchmarks/gold_test_set_100_cleaned.csv`.
 
 ```bash
-python -m app.evaluation.run_eval
+python -m app.evaluation.run_eval --label cleaned_default
 python -m app.evaluation.plot_eval
+python -m app.evaluation.run_focused_eval --label cleaned_default
+```
+
+### Original benchmark comparison
+
+The archived original benchmark remains available for comparison runs and should be written to separate output directories.
+
+```bash
+python -m app.evaluation.run_eval --dataset-path data/evaluation/benchmarks/gold_test_set_100_original.csv --output-dir data/evaluation/original_benchmark --label original_benchmark
+python -m app.evaluation.run_focused_eval --dataset-path data/evaluation/benchmarks/gold_test_set_100_original.csv --paraphrase-path data/evaluation/benchmarks/paraphrase_eval_set_original.csv --output-dir data/evaluation/focused/original_benchmark --baseline-results-path data/evaluation/original_benchmark/evaluation_results.json --label original_benchmark
 ```
 
 ### Focused academic evaluation
 
 The focused academic evaluation covers only `E1`, `E2`, `E4`, and `E5`.
 
-- It uses the current fixed processed corpus across all runs.
-- The supplied workbook at `C:\Users\Dario\Downloads\SOAS_PressOffice_PoC_AcademicProfiles.xlsx` is not used to regenerate the corpus in this pass.
-- Groundedness requires manual annotation before scoring.
+- It uses the refreshed workbook-backed corpus that was rebuilt before this quality-improvement pass and is now held fixed across reruns.
+- The cleaned ranking benchmark is the default dataset for `run_eval` and `run_focused_eval`.
+- Cases that remain unusable after benchmark cleanup are moved into `data/evaluation/benchmarks/gold_test_set_abstention.csv` rather than forced into the ranking benchmark.
+- Groundedness requires fresh manual annotation whenever recommendation outputs change materially.
 
-Run the focused evaluation scripts with:
+Groundedness export and scoring:
 
 ```bash
-python -m app.evaluation.run_focused_eval
-python -m app.evaluation.export_groundedness_audit
+python -m app.evaluation.export_groundedness_audit --label cleaned_default
 python -m app.evaluation.score_groundedness
 ```
 
@@ -233,7 +246,8 @@ This repository keeps a clear split between committed assessment fixtures and lo
 Committed fixtures:
 
 - processed profile JSON files in `data/processed_profiles/`
-- evaluation datasets and generated evaluation outputs in `data/evaluation/`
+- versioned evaluation benchmarks in `data/evaluation/benchmarks/`
+- generated baseline and focused evaluation outputs in `data/evaluation/`
 
 Local-only artefacts:
 
@@ -268,4 +282,3 @@ This MVP demonstrates how a RAG system can support media-expert matching in a co
 - GDPR-aware handling
 - professional communications practice
 - auditable decision support
-

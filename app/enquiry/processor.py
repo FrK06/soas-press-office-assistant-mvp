@@ -1,10 +1,11 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from uuid import uuid4
 
 from app.config import settings
 from app.db import log_enquiry
 from app.enquiry.classifier import classify_enquiry
+from app.enquiry.query_preparation import prepare_enquiry_query
 from app.enquiry.verifier import verify_enquiry
 from app.llm.grounding import generate_staff_summary
 from app.retrieval.expert_ranker import RankerConfig, rank_experts
@@ -27,7 +28,6 @@ def _build_fallback_staff_summary(
 
     top_names = [expert['name'] for expert in experts[:2]]
     top_name_text = ' and '.join(top_names) if len(top_names) == 2 else top_names[0]
-
     themes = ', '.join(topic_labels) if topic_labels else 'the enquiry themes'
 
     strong_reasons = []
@@ -37,7 +37,6 @@ def _build_fallback_staff_summary(
             strong_reasons.append(f"{expert['name']} ({', '.join(sections)})")
 
     reasons_text = '; '.join(strong_reasons) if strong_reasons else 'retrieved profile evidence'
-
     return (
         f'Strongest matches are {top_name_text}, based on grounded profile evidence aligned to {themes}. '
         f'Evidence came from {reasons_text}. '
@@ -58,15 +57,17 @@ def process_enquiry(
     eid = enquiry_id or str(uuid4())
     created_at = utcnow()
     verification = verify_enquiry(sender_email, outlet_name)
-    labels = classify_enquiry(subject, body)
+    prepared_query = prepare_enquiry_query(subject, body)
+    labels = classify_enquiry(prepared_query.normalized_subject, prepared_query.normalized_body)
 
-    query = f"{subject}\n{body}\nTopics: {', '.join(labels)}"
-    chunks = retrieve_chunks(query=query)
+    retrieval_query = prepared_query.normalized_query or f'{subject} {body}'.strip()
+    chunks = retrieve_chunks(query=retrieval_query)
     experts = rank_experts(
         chunks,
         top_k=settings.top_k_experts,
-        query_text=query,
+        query_text=retrieval_query,
         topic_labels=labels,
+        query_keyphrases=prepared_query.keyphrases,
         config=ranker_config,
     )
 

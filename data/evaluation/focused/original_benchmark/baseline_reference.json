@@ -1,0 +1,62 @@
+{
+  "label": "original_benchmark",
+  "dataset": "data\\evaluation\\benchmarks\\gold_test_set_100_original.csv",
+  "paraphrase_dataset": "data\\evaluation\\benchmarks\\paraphrase_eval_set_original.csv",
+  "fixed_corpus_policy": "Focused evaluation uses the current processed profiles and embeddings without regeneration.",
+  "metrics": {
+    "n_cases": 100,
+    "top1_accuracy": 0.95,
+    "top3_accuracy": 0.97,
+    "top5_accuracy": 0.97,
+    "precision_at_3": 0.3966,
+    "mrr": 0.9583,
+    "coverage": 0.99,
+    "approval_proxy_rate": 0.97,
+    "mean_recommended_count": 2.67,
+    "mean_supporting_chunk_count": 3.26,
+    "recognised_outlet_rate": 0.6,
+    "manual_review_rate": 0.4,
+    "recommendation_concentration_top10": [
+      {
+        "expert": "Dr Lorena Lombardozzi",
+        "count": 7
+      },
+      {
+        "expert": "Dr Giuseppina Siciliano",
+        "count": 6
+      },
+      {
+        "expert": "Professor Shirin Rai",
+        "count": 5
+      },
+      {
+        "expert": "Professor Antonio Andreoni",
+        "count": 5
+      },
+      {
+        "expert": "Dr Dieter Wang",
+        "count": 5
+      },
+      {
+        "expert": "Dr Jonathan Acosta Smith",
+        "count": 5
+      },
+      {
+        "expert": "Professor Ulrich Volz",
+        "count": 5
+      },
+      {
+        "expert": "Dr Anandi Rao",
+        "count": 4
+      },
+      {
+        "expert": "Professor Awino Okech",
+        "count": 4
+      },
+      {
+        "expert": "Professor Ha-Joon Chang",
+        "count": 4
+      }
+    ]
+  }
+}

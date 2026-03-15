@@ -1,356 +1,358 @@
-﻿{
-    "experiment":  "E1 Ablation",
-    "baseline_reference":  {
-                               "n_cases":  100,
-                               "top1_accuracy":  0.62,
-                               "top3_accuracy":  0.92,
-                               "top5_accuracy":  0.97,
-                               "precision_at_3":  0.39,
-                               "mrr":  0.7637,
-                               "coverage":  1,
-                               "approval_proxy_rate":  0.92,
-                               "mean_recommended_count":  3.55,
-                               "mean_supporting_chunk_count":  6.68,
-                               "recognised_outlet_rate":  0.6,
-                               "manual_review_rate":  0.4,
-                               "recommendation_concentration_top10":  [
-                                                                          {
-                                                                              "expert":  "Dr Sonali Deraniyagala",
-                                                                              "count":  11
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Dr Giuseppina Siciliano",
-                                                                              "count":  9
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Dr Althea-Maria Rivas",
-                                                                              "count":  9
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Dr Lorena Lombardozzi",
-                                                                              "count":  9
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Professor Julia Sallabank",
-                                                                              "count":  9
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Professor Lutz Marten",
-                                                                              "count":  9
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Professor Laixiang Sun",
-                                                                              "count":  8
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Dr Risa Morimoto",
-                                                                              "count":  8
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Dr Miguel Nino-Zarazua",
-                                                                              "count":  8
-                                                                          },
-                                                                          {
-                                                                              "expert":  "Professor Rachel V Harrison",
-                                                                              "count":  8
-                                                                          }
-                                                                      ]
-                           },
-    "tradeoff_method":  "Unweighted mean of Top-1, Top-3, Precision@3, and MRR.",
-    "overall_tradeoff_leader":  {
-                                    "variant_key":  "variant_a_retrieval_only",
-                                    "variant_label":  "Variant A: retrieval aggregation only",
-                                    "tradeoff_score":  0.6782
-                                },
-    "full_system_is_tradeoff_leader":  false,
-    "variants":  {
-                     "variant_a_retrieval_only":  {
-                                                      "label":  "Variant A: retrieval aggregation only",
-                                                      "config":  {
-                                                                     "enable_topic_boosts":  false,
-                                                                     "enable_media_signal_boost":  false,
-                                                                     "enable_diversity_penalty":  false,
-                                                                     "min_single_chunk_score":  0.6,
-                                                                     "min_final_score":  0.62
-                                                                 },
-                                                      "metrics":  {
-                                                                      "n_cases":  100,
-                                                                      "top1_accuracy":  0.62,
-                                                                      "top3_accuracy":  0.93,
-                                                                      "top5_accuracy":  0.97,
-                                                                      "precision_at_3":  0.4,
-                                                                      "mrr":  0.7628,
-                                                                      "coverage":  1,
-                                                                      "approval_proxy_rate":  0.93,
-                                                                      "mean_recommended_count":  3.43,
-                                                                      "mean_supporting_chunk_count":  6.56,
-                                                                      "recognised_outlet_rate":  0.6,
-                                                                      "manual_review_rate":  0.4,
-                                                                      "recommendation_concentration_top10":  [
-                                                                                                                 {
-                                                                                                                     "expert":  "Dr Sonali Deraniyagala",
-                                                                                                                     "count":  11
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Dr Giuseppina Siciliano",
-                                                                                                                     "count":  9
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Dr Althea-Maria Rivas",
-                                                                                                                     "count":  9
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Professor Julia Sallabank",
-                                                                                                                     "count":  9
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Professor Lutz Marten",
-                                                                                                                     "count":  9
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Professor Laixiang Sun",
-                                                                                                                     "count":  8
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Dr Risa Morimoto",
-                                                                                                                     "count":  8
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Dr Lorena Lombardozzi",
-                                                                                                                     "count":  8
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Professor Ulrich Volz",
-                                                                                                                     "count":  8
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     "expert":  "Dr Yannis Dafermos",
-                                                                                                                     "count":  7
-                                                                                                                 }
-                                                                                                             ]
-                                                                  },
-                                                      "tradeoff_score":  0.6782,
-                                                      "versus_full_system":  {
-                                                                                 "win":  2,
-                                                                                 "loss":  1,
-                                                                                 "tie":  97
-                                                                             }
-                                                  },
-                     "variant_b_topic_boosts":  {
-                                                    "label":  "Variant B: retrieval aggregation plus topic boosts",
-                                                    "config":  {
-                                                                   "enable_topic_boosts":  true,
-                                                                   "enable_media_signal_boost":  false,
-                                                                   "enable_diversity_penalty":  false,
-                                                                   "min_single_chunk_score":  0.6,
-                                                                   "min_final_score":  0.62
-                                                               },
-                                                    "metrics":  {
-                                                                    "n_cases":  100,
-                                                                    "top1_accuracy":  0.61,
-                                                                    "top3_accuracy":  0.93,
-                                                                    "top5_accuracy":  0.97,
-                                                                    "precision_at_3":  0.4,
-                                                                    "mrr":  0.7578,
-                                                                    "coverage":  1,
-                                                                    "approval_proxy_rate":  0.93,
-                                                                    "mean_recommended_count":  3.45,
-                                                                    "mean_supporting_chunk_count":  6.58,
-                                                                    "recognised_outlet_rate":  0.6,
-                                                                    "manual_review_rate":  0.4,
-                                                                    "recommendation_concentration_top10":  [
-                                                                                                               {
-                                                                                                                   "expert":  "Dr Sonali Deraniyagala",
-                                                                                                                   "count":  11
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Dr Giuseppina Siciliano",
-                                                                                                                   "count":  9
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Dr Althea-Maria Rivas",
-                                                                                                                   "count":  9
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Professor Julia Sallabank",
-                                                                                                                   "count":  9
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Professor Lutz Marten",
-                                                                                                                   "count":  9
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Professor Laixiang Sun",
-                                                                                                                   "count":  8
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Dr Risa Morimoto",
-                                                                                                                   "count":  8
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Dr Lorena Lombardozzi",
-                                                                                                                   "count":  8
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Professor Ulrich Volz",
-                                                                                                                   "count":  8
-                                                                                                               },
-                                                                                                               {
-                                                                                                                   "expert":  "Dr Yannis Dafermos",
-                                                                                                                   "count":  7
-                                                                                                               }
-                                                                                                           ]
-                                                                },
-                                                    "tradeoff_score":  0.6744,
-                                                    "versus_full_system":  {
-                                                                               "win":  2,
-                                                                               "loss":  2,
-                                                                               "tie":  96
-                                                                           }
-                                                },
-                     "variant_c_topic_and_media":  {
-                                                       "label":  "Variant C: retrieval aggregation plus topic boosts and media-signal boost",
-                                                       "config":  {
-                                                                      "enable_topic_boosts":  true,
-                                                                      "enable_media_signal_boost":  true,
-                                                                      "enable_diversity_penalty":  false,
-                                                                      "min_single_chunk_score":  0.6,
-                                                                      "min_final_score":  0.62
-                                                                  },
-                                                       "metrics":  {
-                                                                       "n_cases":  100,
-                                                                       "top1_accuracy":  0.62,
-                                                                       "top3_accuracy":  0.92,
-                                                                       "top5_accuracy":  0.97,
-                                                                       "precision_at_3":  0.39,
-                                                                       "mrr":  0.7637,
-                                                                       "coverage":  1,
-                                                                       "approval_proxy_rate":  0.92,
-                                                                       "mean_recommended_count":  3.55,
-                                                                       "mean_supporting_chunk_count":  6.68,
-                                                                       "recognised_outlet_rate":  0.6,
-                                                                       "manual_review_rate":  0.4,
-                                                                       "recommendation_concentration_top10":  [
-                                                                                                                  {
-                                                                                                                      "expert":  "Dr Sonali Deraniyagala",
-                                                                                                                      "count":  11
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Dr Giuseppina Siciliano",
-                                                                                                                      "count":  9
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Dr Althea-Maria Rivas",
-                                                                                                                      "count":  9
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Dr Lorena Lombardozzi",
-                                                                                                                      "count":  9
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Professor Julia Sallabank",
-                                                                                                                      "count":  9
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Professor Lutz Marten",
-                                                                                                                      "count":  9
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Professor Laixiang Sun",
-                                                                                                                      "count":  8
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Dr Risa Morimoto",
-                                                                                                                      "count":  8
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Dr Miguel Nino-Zarazua",
-                                                                                                                      "count":  8
-                                                                                                                  },
-                                                                                                                  {
-                                                                                                                      "expert":  "Professor Rachel V Harrison",
-                                                                                                                      "count":  8
-                                                                                                                  }
-                                                                                                              ]
-                                                                   },
-                                                       "tradeoff_score":  0.6734,
-                                                       "versus_full_system":  {
-                                                                                  "win":  1,
-                                                                                  "loss":  0,
-                                                                                  "tie":  99
-                                                                              }
-                                                   },
-                     "variant_d_full_system":  {
-                                                   "label":  "Variant D: full current system",
-                                                   "config":  {
-                                                                  "enable_topic_boosts":  true,
-                                                                  "enable_media_signal_boost":  true,
-                                                                  "enable_diversity_penalty":  true,
-                                                                  "min_single_chunk_score":  0.6,
-                                                                  "min_final_score":  0.62
-                                                              },
-                                                   "metrics":  {
-                                                                   "n_cases":  100,
-                                                                   "top1_accuracy":  0.62,
-                                                                   "top3_accuracy":  0.92,
-                                                                   "top5_accuracy":  0.97,
-                                                                   "precision_at_3":  0.39,
-                                                                   "mrr":  0.762,
-                                                                   "coverage":  1,
-                                                                   "approval_proxy_rate":  0.92,
-                                                                   "mean_recommended_count":  3.56,
-                                                                   "mean_supporting_chunk_count":  6.7,
-                                                                   "recognised_outlet_rate":  0.6,
-                                                                   "manual_review_rate":  0.4,
-                                                                   "recommendation_concentration_top10":  [
-                                                                                                              {
-                                                                                                                  "expert":  "Dr Sonali Deraniyagala",
-                                                                                                                  "count":  11
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Dr Giuseppina Siciliano",
-                                                                                                                  "count":  9
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Dr Althea-Maria Rivas",
-                                                                                                                  "count":  9
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Dr Lorena Lombardozzi",
-                                                                                                                  "count":  9
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Professor Julia Sallabank",
-                                                                                                                  "count":  9
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Professor Lutz Marten",
-                                                                                                                  "count":  9
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Professor Laixiang Sun",
-                                                                                                                  "count":  8
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Dr Risa Morimoto",
-                                                                                                                  "count":  8
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Dr Miguel Nino-Zarazua",
-                                                                                                                  "count":  8
-                                                                                                              },
-                                                                                                              {
-                                                                                                                  "expert":  "Professor Rachel V Harrison",
-                                                                                                                  "count":  8
-                                                                                                              }
-                                                                                                          ]
-                                                               },
-                                                   "tradeoff_score":  0.673,
-                                                   "versus_full_system":  {
-                                                                              "win":  0,
-                                                                              "loss":  0,
-                                                                              "tie":  100
-                                                                          }
-                                               }
-                 }
+{
+  "experiment": "E1 Ablation",
+  "label": "cleaned_default",
+  "dataset": "data\\evaluation\\benchmarks\\gold_test_set_100_cleaned.csv",
+  "baseline_reference": {
+    "n_cases": 99,
+    "top1_accuracy": 0.9192,
+    "top3_accuracy": 0.9394,
+    "top5_accuracy": 0.9495,
+    "precision_at_3": 0.4411,
+    "mrr": 0.9318,
+    "coverage": 1,
+    "approval_proxy_rate": 0.9394,
+    "mean_recommended_count": 3.5859,
+    "mean_supporting_chunk_count": 3.9798,
+    "recognised_outlet_rate": 0.6061,
+    "manual_review_rate": 0.3939,
+    "recommendation_concentration_top10": [
+      {
+        "expert": "Dr Lorena Lombardozzi",
+        "count": 10
+      },
+      {
+        "expert": "Dr Anandi Rao",
+        "count": 7
+      },
+      {
+        "expert": "Dr Giuseppina Siciliano",
+        "count": 7
+      },
+      {
+        "expert": "Dr Yannis Dafermos",
+        "count": 7
+      },
+      {
+        "expert": "Dr Frank Maracchione",
+        "count": 6
+      },
+      {
+        "expert": "Dr Moataz El Fegiery",
+        "count": 6
+      },
+      {
+        "expert": "Dr M. Kerem Coban",
+        "count": 6
+      },
+      {
+        "expert": "Professor Ulrich Volz",
+        "count": 6
+      },
+      {
+        "expert": "Dr Dieter Wang",
+        "count": 6
+      },
+      {
+        "expert": "Dr Jonathan Acosta Smith",
+        "count": 6
+      }
+    ]
+  },
+  "tradeoff_method": "Unweighted mean of Top-1, Top-3, Precision@3, and MRR.",
+  "overall_tradeoff_leader": {
+    "variant_key": "variant_d_full_system",
+    "variant_label": "Variant D: full current system",
+    "tradeoff_score": 0.8155
+  },
+  "full_system_is_tradeoff_leader": true,
+  "variants": {
+    "variant_a_retrieval_only": {
+      "label": "Variant A: retrieval aggregation only",
+      "config": {
+        "enable_topic_boosts": false,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 99,
+        "top1_accuracy": 0.8081,
+        "top3_accuracy": 0.8586,
+        "top5_accuracy": 0.8586,
+        "precision_at_3": 0.2963,
+        "mrr": 0.8333,
+        "coverage": 0.9091,
+        "approval_proxy_rate": 0.8586,
+        "mean_recommended_count": 1.202,
+        "mean_supporting_chunk_count": 1.5758,
+        "recognised_outlet_rate": 0.6061,
+        "manual_review_rate": 0.3939,
+        "recommendation_concentration_top10": [
+          {
+            "expert": "Dr Frank Maracchione",
+            "count": 3
+          },
+          {
+            "expert": "Mr Ian D Edge",
+            "count": 3
+          },
+          {
+            "expert": "Dr Eleanor Newbigin",
+            "count": 2
+          },
+          {
+            "expert": "Professor Shirin Rai",
+            "count": 2
+          },
+          {
+            "expert": "Dr Dieter Wang",
+            "count": 2
+          },
+          {
+            "expert": "Dr Yannis Dafermos",
+            "count": 2
+          },
+          {
+            "expert": "Dr Sara Stevano",
+            "count": 2
+          },
+          {
+            "expert": "Professor Scott Redford",
+            "count": 2
+          },
+          {
+            "expert": "Dr Alberto Asquer",
+            "count": 2
+          },
+          {
+            "expert": "Dr Anandi Rao",
+            "count": 2
+          }
+        ]
+      },
+      "tradeoff_score": 0.6991,
+      "versus_full_system": {
+        "win": 0,
+        "loss": 14,
+        "tie": 85
+      }
+    },
+    "variant_b_topic_boosts": {
+      "label": "Variant B: retrieval aggregation plus topic boosts",
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 99,
+        "top1_accuracy": 0.9192,
+        "top3_accuracy": 0.9394,
+        "top5_accuracy": 0.9495,
+        "precision_at_3": 0.4411,
+        "mrr": 0.9318,
+        "coverage": 1,
+        "approval_proxy_rate": 0.9394,
+        "mean_recommended_count": 3.5859,
+        "mean_supporting_chunk_count": 3.9798,
+        "recognised_outlet_rate": 0.6061,
+        "manual_review_rate": 0.3939,
+        "recommendation_concentration_top10": [
+          {
+            "expert": "Dr Lorena Lombardozzi",
+            "count": 10
+          },
+          {
+            "expert": "Dr Anandi Rao",
+            "count": 7
+          },
+          {
+            "expert": "Dr Giuseppina Siciliano",
+            "count": 7
+          },
+          {
+            "expert": "Dr Yannis Dafermos",
+            "count": 7
+          },
+          {
+            "expert": "Dr Frank Maracchione",
+            "count": 6
+          },
+          {
+            "expert": "Dr Moataz El Fegiery",
+            "count": 6
+          },
+          {
+            "expert": "Dr M. Kerem Coban",
+            "count": 6
+          },
+          {
+            "expert": "Professor Ulrich Volz",
+            "count": 6
+          },
+          {
+            "expert": "Dr Dieter Wang",
+            "count": 6
+          },
+          {
+            "expert": "Dr Jonathan Acosta Smith",
+            "count": 6
+          }
+        ]
+      },
+      "tradeoff_score": 0.8079,
+      "versus_full_system": {
+        "win": 0,
+        "loss": 1,
+        "tie": 98
+      }
+    },
+    "variant_c_topic_and_media": {
+      "label": "Variant C: retrieval aggregation plus topic boosts and media-signal boost",
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": true,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 99,
+        "top1_accuracy": 0.9192,
+        "top3_accuracy": 0.9495,
+        "top5_accuracy": 0.9596,
+        "precision_at_3": 0.4411,
+        "mrr": 0.9369,
+        "coverage": 1,
+        "approval_proxy_rate": 0.9495,
+        "mean_recommended_count": 3.6869,
+        "mean_supporting_chunk_count": 4.0808,
+        "recognised_outlet_rate": 0.6061,
+        "manual_review_rate": 0.3939,
+        "recommendation_concentration_top10": [
+          {
+            "expert": "Dr Lorena Lombardozzi",
+            "count": 10
+          },
+          {
+            "expert": "Dr Giuseppina Siciliano",
+            "count": 7
+          },
+          {
+            "expert": "Dr Yannis Dafermos",
+            "count": 7
+          },
+          {
+            "expert": "Dr Jonathan Acosta Smith",
+            "count": 7
+          },
+          {
+            "expert": "Dr Frank Maracchione",
+            "count": 6
+          },
+          {
+            "expert": "Dr Moataz El Fegiery",
+            "count": 6
+          },
+          {
+            "expert": "Dr M. Kerem Coban",
+            "count": 6
+          },
+          {
+            "expert": "Professor Ulrich Volz",
+            "count": 6
+          },
+          {
+            "expert": "Dr Dieter Wang",
+            "count": 6
+          },
+          {
+            "expert": "Dr Anandi Rao",
+            "count": 6
+          }
+        ]
+      },
+      "tradeoff_score": 0.8117,
+      "versus_full_system": {
+        "win": 0,
+        "loss": 1,
+        "tie": 98
+      }
+    },
+    "variant_d_full_system": {
+      "label": "Variant D: full current system",
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": true,
+        "enable_diversity_penalty": true,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 99,
+        "top1_accuracy": 0.9293,
+        "top3_accuracy": 0.9495,
+        "top5_accuracy": 0.9596,
+        "precision_at_3": 0.4411,
+        "mrr": 0.9419,
+        "coverage": 1,
+        "approval_proxy_rate": 0.9495,
+        "mean_recommended_count": 3.6869,
+        "mean_supporting_chunk_count": 4.0808,
+        "recognised_outlet_rate": 0.6061,
+        "manual_review_rate": 0.3939,
+        "recommendation_concentration_top10": [
+          {
+            "expert": "Dr Lorena Lombardozzi",
+            "count": 10
+          },
+          {
+            "expert": "Dr Giuseppina Siciliano",
+            "count": 7
+          },
+          {
+            "expert": "Dr Yannis Dafermos",
+            "count": 7
+          },
+          {
+            "expert": "Dr Jonathan Acosta Smith",
+            "count": 7
+          },
+          {
+            "expert": "Dr Frank Maracchione",
+            "count": 6
+          },
+          {
+            "expert": "Dr Moataz El Fegiery",
+            "count": 6
+          },
+          {
+            "expert": "Dr M. Kerem Coban",
+            "count": 6
+          },
+          {
+            "expert": "Professor Ulrich Volz",
+            "count": 6
+          },
+          {
+            "expert": "Dr Dieter Wang",
+            "count": 6
+          },
+          {
+            "expert": "Dr Anandi Rao",
+            "count": 6
+          }
+        ]
+      },
+      "tradeoff_score": 0.8155,
+      "versus_full_system": {
+        "win": 0,
+        "loss": 0,
+        "tie": 99
+      }
+    }
+  }
 }

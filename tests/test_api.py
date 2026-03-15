@@ -1,4 +1,4 @@
-﻿from fastapi.testclient import TestClient
+from fastapi.testclient import TestClient
 import sqlite3
 
 from app.config import settings
@@ -9,7 +9,7 @@ def _patch_runtime(monkeypatch, sample_chunks, sample_experts) -> None:
     monkeypatch.setattr(settings, 'enable_llm_rationales', False)
     monkeypatch.setattr('app.enquiry.processor.retrieve_chunks', lambda query: sample_chunks)
 
-    def fake_rank_experts(chunks, top_k=5, query_text='', topic_labels=None, config=None):
+    def fake_rank_experts(chunks, top_k=5, query_text='', topic_labels=None, query_keyphrases=None, config=None):
         return sample_experts
 
     monkeypatch.setattr('app.enquiry.processor.rank_experts', fake_rank_experts)

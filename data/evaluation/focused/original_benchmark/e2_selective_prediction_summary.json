@@ -1,0 +1,249 @@
+{
+  "experiment": "E2 Selective Prediction / Abstention",
+  "label": "original_benchmark",
+  "dataset": "data\\evaluation\\benchmarks\\gold_test_set_100_original.csv",
+  "baseline_reference": {
+    "n_cases": 100,
+    "top1_accuracy": 0.95,
+    "top3_accuracy": 0.97,
+    "top5_accuracy": 0.97,
+    "precision_at_3": 0.3966,
+    "mrr": 0.9583,
+    "coverage": 0.99,
+    "approval_proxy_rate": 0.97,
+    "mean_recommended_count": 2.67,
+    "mean_supporting_chunk_count": 3.26,
+    "recognised_outlet_rate": 0.6,
+    "manual_review_rate": 0.4,
+    "recommendation_concentration_top10": [
+      {
+        "expert": "Dr Lorena Lombardozzi",
+        "count": 7
+      },
+      {
+        "expert": "Dr Giuseppina Siciliano",
+        "count": 6
+      },
+      {
+        "expert": "Professor Shirin Rai",
+        "count": 5
+      },
+      {
+        "expert": "Professor Antonio Andreoni",
+        "count": 5
+      },
+      {
+        "expert": "Dr Dieter Wang",
+        "count": 5
+      },
+      {
+        "expert": "Dr Jonathan Acosta Smith",
+        "count": 5
+      },
+      {
+        "expert": "Professor Ulrich Volz",
+        "count": 5
+      },
+      {
+        "expert": "Dr Anandi Rao",
+        "count": 4
+      },
+      {
+        "expert": "Professor Awino Okech",
+        "count": 4
+      },
+      {
+        "expert": "Professor Ha-Joon Chang",
+        "count": 4
+      }
+    ]
+  },
+  "default_setting_key": "single_0.55_final_0.62",
+  "definitions": {
+    "coverage": "Proportion of cases with at least one returned recommendation after thresholding.",
+    "abstention": "A case with zero returned recommendations after thresholding."
+  },
+  "settings": {
+    "single_0.55_final_0.57": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.57
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.99,
+        "abstention_rate": 0.01,
+        "covered_case_top1_accuracy": 0.9596,
+        "covered_case_top3_accuracy": 0.9798,
+        "covered_case_mrr": 0.968,
+        "overall_top1_accuracy": 0.95,
+        "overall_top3_accuracy": 0.97,
+        "mean_recommended_count": 2.72
+      }
+    },
+    "single_0.55_final_0.62": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.99,
+        "abstention_rate": 0.01,
+        "covered_case_top1_accuracy": 0.9596,
+        "covered_case_top3_accuracy": 0.9798,
+        "covered_case_mrr": 0.968,
+        "overall_top1_accuracy": 0.95,
+        "overall_top3_accuracy": 0.97,
+        "mean_recommended_count": 2.66
+      }
+    },
+    "single_0.55_final_0.67": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.67
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.99,
+        "abstention_rate": 0.01,
+        "covered_case_top1_accuracy": 0.9596,
+        "covered_case_top3_accuracy": 0.9798,
+        "covered_case_mrr": 0.968,
+        "overall_top1_accuracy": 0.95,
+        "overall_top3_accuracy": 0.97,
+        "mean_recommended_count": 2.48
+      }
+    },
+    "single_0.60_final_0.57": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.6,
+        "min_final_score": 0.57
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.98,
+        "abstention_rate": 0.02,
+        "covered_case_top1_accuracy": 0.9082,
+        "covered_case_top3_accuracy": 0.9184,
+        "covered_case_mrr": 0.9133,
+        "overall_top1_accuracy": 0.89,
+        "overall_top3_accuracy": 0.9,
+        "mean_recommended_count": 1.6
+      }
+    },
+    "single_0.60_final_0.62": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.6,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.98,
+        "abstention_rate": 0.02,
+        "covered_case_top1_accuracy": 0.9082,
+        "covered_case_top3_accuracy": 0.9184,
+        "covered_case_mrr": 0.9133,
+        "overall_top1_accuracy": 0.89,
+        "overall_top3_accuracy": 0.9,
+        "mean_recommended_count": 1.58
+      }
+    },
+    "single_0.60_final_0.67": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.6,
+        "min_final_score": 0.67
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.97,
+        "abstention_rate": 0.03,
+        "covered_case_top1_accuracy": 0.9175,
+        "covered_case_top3_accuracy": 0.9278,
+        "covered_case_mrr": 0.9227,
+        "overall_top1_accuracy": 0.89,
+        "overall_top3_accuracy": 0.9,
+        "mean_recommended_count": 1.54
+      }
+    },
+    "single_0.65_final_0.57": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.65,
+        "min_final_score": 0.57
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.97,
+        "abstention_rate": 0.03,
+        "covered_case_top1_accuracy": 0.9072,
+        "covered_case_top3_accuracy": 0.9175,
+        "covered_case_mrr": 0.9124,
+        "overall_top1_accuracy": 0.88,
+        "overall_top3_accuracy": 0.89,
+        "mean_recommended_count": 1.32
+      }
+    },
+    "single_0.65_final_0.62": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.65,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.97,
+        "abstention_rate": 0.03,
+        "covered_case_top1_accuracy": 0.9072,
+        "covered_case_top3_accuracy": 0.9175,
+        "covered_case_mrr": 0.9124,
+        "overall_top1_accuracy": 0.88,
+        "overall_top3_accuracy": 0.89,
+        "mean_recommended_count": 1.3
+      }
+    },
+    "single_0.65_final_0.67": {
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.65,
+        "min_final_score": 0.67
+      },
+      "metrics": {
+        "n_cases": 100,
+        "coverage": 0.96,
+        "abstention_rate": 0.04,
+        "covered_case_top1_accuracy": 0.9167,
+        "covered_case_top3_accuracy": 0.9271,
+        "covered_case_mrr": 0.9219,
+        "overall_top1_accuracy": 0.88,
+        "overall_top3_accuracy": 0.89,
+        "mean_recommended_count": 1.27
+      }
+    }
+  },
+  "tradeoff_candidates": []
+}

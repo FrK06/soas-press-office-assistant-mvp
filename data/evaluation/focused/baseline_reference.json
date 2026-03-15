@@ -1,60 +1,62 @@
-﻿{
-    "dataset":  "data/evaluation/gold_test_set_100.csv",
-    "fixed_corpus_policy":  "Focused evaluation uses the current processed profiles and embeddings without regeneration.",
-    "metrics":  {
-                    "n_cases":  100,
-                    "top1_accuracy":  0.62,
-                    "top3_accuracy":  0.92,
-                    "top5_accuracy":  0.97,
-                    "precision_at_3":  0.39,
-                    "mrr":  0.7637,
-                    "coverage":  1,
-                    "approval_proxy_rate":  0.92,
-                    "mean_recommended_count":  3.55,
-                    "mean_supporting_chunk_count":  6.68,
-                    "recognised_outlet_rate":  0.6,
-                    "manual_review_rate":  0.4,
-                    "recommendation_concentration_top10":  [
-                                                               {
-                                                                   "expert":  "Dr Sonali Deraniyagala",
-                                                                   "count":  11
-                                                               },
-                                                               {
-                                                                   "expert":  "Dr Giuseppina Siciliano",
-                                                                   "count":  9
-                                                               },
-                                                               {
-                                                                   "expert":  "Dr Althea-Maria Rivas",
-                                                                   "count":  9
-                                                               },
-                                                               {
-                                                                   "expert":  "Dr Lorena Lombardozzi",
-                                                                   "count":  9
-                                                               },
-                                                               {
-                                                                   "expert":  "Professor Julia Sallabank",
-                                                                   "count":  9
-                                                               },
-                                                               {
-                                                                   "expert":  "Professor Lutz Marten",
-                                                                   "count":  9
-                                                               },
-                                                               {
-                                                                   "expert":  "Professor Laixiang Sun",
-                                                                   "count":  8
-                                                               },
-                                                               {
-                                                                   "expert":  "Dr Risa Morimoto",
-                                                                   "count":  8
-                                                               },
-                                                               {
-                                                                   "expert":  "Dr Miguel Nino-Zarazua",
-                                                                   "count":  8
-                                                               },
-                                                               {
-                                                                   "expert":  "Professor Rachel V Harrison",
-                                                                   "count":  8
-                                                               }
-                                                           ]
-                }
+{
+  "label": "cleaned_default",
+  "dataset": "data\\evaluation\\benchmarks\\gold_test_set_100_cleaned.csv",
+  "paraphrase_dataset": "data\\evaluation\\benchmarks\\paraphrase_eval_set_cleaned.csv",
+  "fixed_corpus_policy": "Focused evaluation uses the current processed profiles and embeddings without regeneration.",
+  "metrics": {
+    "n_cases": 99,
+    "top1_accuracy": 0.9192,
+    "top3_accuracy": 0.9394,
+    "top5_accuracy": 0.9495,
+    "precision_at_3": 0.4411,
+    "mrr": 0.9318,
+    "coverage": 1,
+    "approval_proxy_rate": 0.9394,
+    "mean_recommended_count": 3.5859,
+    "mean_supporting_chunk_count": 3.9798,
+    "recognised_outlet_rate": 0.6061,
+    "manual_review_rate": 0.3939,
+    "recommendation_concentration_top10": [
+      {
+        "expert": "Dr Lorena Lombardozzi",
+        "count": 10
+      },
+      {
+        "expert": "Dr Anandi Rao",
+        "count": 7
+      },
+      {
+        "expert": "Dr Giuseppina Siciliano",
+        "count": 7
+      },
+      {
+        "expert": "Dr Yannis Dafermos",
+        "count": 7
+      },
+      {
+        "expert": "Dr Frank Maracchione",
+        "count": 6
+      },
+      {
+        "expert": "Dr Moataz El Fegiery",
+        "count": 6
+      },
+      {
+        "expert": "Dr M. Kerem Coban",
+        "count": 6
+      },
+      {
+        "expert": "Professor Ulrich Volz",
+        "count": 6
+      },
+      {
+        "expert": "Dr Dieter Wang",
+        "count": 6
+      },
+      {
+        "expert": "Dr Jonathan Acosta Smith",
+        "count": 6
+      }
+    ]
+  }
 }

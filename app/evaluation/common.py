@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import csv
 from collections import Counter
@@ -11,7 +11,11 @@ from app.enquiry.processor import process_enquiry
 from app.retrieval.expert_ranker import RankerConfig
 
 
-DATASET_PATH = Path('data/evaluation/gold_test_set_100.csv')
+BENCHMARK_DIR = Path('data/evaluation/benchmarks')
+ORIGINAL_DATASET_PATH = BENCHMARK_DIR / 'gold_test_set_100_original.csv'
+CLEANED_DATASET_PATH = BENCHMARK_DIR / 'gold_test_set_100_cleaned.csv'
+ABSTENTION_DATASET_PATH = BENCHMARK_DIR / 'gold_test_set_abstention.csv'
+DATASET_PATH = CLEANED_DATASET_PATH
 OUTPUT_DIR = Path('data/evaluation')
 
 
@@ -44,7 +48,7 @@ def normalize_name(name: str) -> str:
 def parse_expected_experts(raw: str) -> list[str]:
     if not raw:
         return []
-    return [normalize_name(x) for x in raw.split('|') if x.strip()]
+    return [normalize_name(item) for item in raw.split('|') if item.strip()]
 
 
 def load_dataset(path: Path = DATASET_PATH) -> list[EvalCase]:
@@ -52,16 +56,15 @@ def load_dataset(path: Path = DATASET_PATH) -> list[EvalCase]:
         raise FileNotFoundError(f'Dataset not found: {path}')
 
     rows: list[EvalCase] = []
-    with path.open('r', encoding='utf-8-sig', newline='') as f:
-        reader = csv.DictReader(f)
+    with path.open('r', encoding='utf-8-sig', newline='') as handle:
+        reader = csv.DictReader(handle)
         missing = REQUIRED_COLUMNS - set(reader.fieldnames or [])
         if missing:
             raise ValueError(f'Missing required columns: {sorted(missing)}')
 
         for row in reader:
-            if not any((v or '').strip() for v in row.values()):
+            if not any((value or '').strip() for value in row.values()):
                 continue
-
             rows.append(
                 EvalCase(
                     test_id=(row['test_id'] or '').strip(),
@@ -89,9 +92,9 @@ def select_cases(cases: Iterable[EvalCase], test_ids: list[str]) -> list[EvalCas
 
 
 def first_relevant_rank(predicted_names: list[str], expected_names: set[str]) -> int | None:
-    for idx, name in enumerate(predicted_names, start=1):
+    for index, name in enumerate(predicted_names, start=1):
         if normalize_name(name) in expected_names:
-            return idx
+            return index
     return None
 
 
@@ -270,14 +273,16 @@ def write_detailed_csv(case_results: list[dict[str, Any]], path: Path) -> None:
     if not rows:
         raise ValueError('No case rows available to write')
 
-    with path.open('w', encoding='utf-8', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+    with path.open('w', encoding='utf-8', newline='') as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
         writer.writeheader()
         writer.writerows(rows)
 
 
-def build_output(case_results: list[dict[str, Any]]) -> dict[str, Any]:
+def build_output(case_results: list[dict[str, Any]], *, dataset_path: Path, label: str) -> dict[str, Any]:
     return {
+        'label': label,
+        'dataset': str(dataset_path),
         'metrics': aggregate_metrics(case_results),
         'cases': case_results,
     }

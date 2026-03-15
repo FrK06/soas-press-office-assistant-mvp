@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import json
 import re
@@ -7,6 +7,7 @@ from pathlib import Path
 from openpyxl import load_workbook
 
 from app.utils.hashing import sha256_text
+from app.utils.text_cleaning import flatten_text, normalize_punctuation, normalize_whitespace
 
 
 INPUT_XLSX = Path('SOAS_profiles.xlsx')
@@ -37,12 +38,6 @@ LANGUAGE_CANDIDATES = [
     'Greek',
 ]
 
-DIRECT_TEXT_REPAIRS = {
-    '•': '; ',
-    '·': '; ',
-    '…': '...',
-}
-
 
 def slugify(text: str) -> str:
     text = str(text).strip().lower()
@@ -50,79 +45,36 @@ def slugify(text: str) -> str:
     return text.strip('-')
 
 
-def repair_text_artifacts(text: str) -> str:
-    repaired = text
-
-    if any(marker in text for marker in ('â', 'Â')):
-        try:
-            repaired = text.encode('latin-1').decode('utf-8')
-        except UnicodeError:
-            repaired = text
-
-    for broken, fixed in DIRECT_TEXT_REPAIRS.items():
-        repaired = repaired.replace(broken, fixed)
-
-    return repaired.replace('\xa0', ' ')
-
-
-def normalize_whitespace(text: str | None) -> str | None:
-    if text is None:
-        return None
-    text = repair_text_artifacts(str(text)).replace('\r\n', '\n').replace('\r', '\n')
-    text = re.sub(r'[ \t]+', ' ', text)
-    text = re.sub(r'\n{3,}', '\n\n', text)
-    text = re.sub(r' ?\n ?', '\n', text)
-    text = text.strip()
-    return text or None
-
-
-def flatten_text(text: str | None) -> str | None:
-    text = normalize_whitespace(text)
-    if not text:
-        return None
-    text = text.replace('\n', ' ')
-    text = re.sub(r'\s+', ' ', text).strip()
-    return text or None
-
-
 def clean_title(text: str | None) -> str | None:
-    text = normalize_whitespace(text)
-    if not text:
+    cleaned = normalize_whitespace(text)
+    if not cleaned:
         return None
 
-    lines = [line.strip(' -*;:') for line in text.split('\n')]
+    lines = [line.strip(' -*;:') for line in cleaned.split('\n')]
     lines = [line for line in lines if line]
 
-    cleaned: list[str] = []
+    unique_lines: list[str] = []
     seen: set[str] = set()
     for line in lines:
         key = line.lower()
         if key not in seen:
-            cleaned.append(line)
+            unique_lines.append(line)
             seen.add(key)
 
-    if not cleaned:
+    if not unique_lines:
         return None
-
-    return ' | '.join(cleaned)
+    return ' | '.join(unique_lines)
 
 
 def clean_department(text: str | None) -> str | None:
-    text = flatten_text(text)
-    if not text:
-        return None
-    return text
+    return flatten_text(text)
 
 
 def split_concatenated_keywords(text: str) -> str:
     text = text.strip()
-
     text = re.sub(r'(?<=[a-z])(?=[A-Z])', '; ', text)
     text = re.sub(r'(?<=[A-Z])(?=[A-Z][a-z])', '; ', text)
-
     text = text.replace('|', ';')
-    text = text.replace('•', ';')
-    text = text.replace('·', ';')
     text = text.replace('/', '; ')
     return text
 
@@ -140,17 +92,14 @@ def split_keywords(value: str | None) -> list[str]:
 
     cleaned: list[str] = []
     seen: set[str] = set()
-
     for part in parts:
-        part = re.sub(r'\s+', ' ', part).strip(' .,-;:')
-        if not part:
+        normalized = normalize_punctuation(part)
+        normalized = re.sub(r'\s+', ' ', normalized).strip(' .,-;:')
+        if not normalized or len(normalized) < 2:
             continue
-        if len(part) < 2:
-            continue
-
-        key = part.lower()
+        key = normalized.lower()
         if key not in seen:
-            cleaned.append(part)
+            cleaned.append(normalized)
             seen.add(key)
 
     return cleaned
@@ -162,11 +111,9 @@ def extract_languages(text: str | None) -> list[str]:
 
     text_lower = text.lower()
     found: list[str] = []
-
     for lang in LANGUAGE_CANDIDATES:
         if re.search(rf'\b{re.escape(lang.lower())}\b', text_lower):
             found.append(lang)
-
     return found
 
 
@@ -174,42 +121,31 @@ def clean_links(value: str | None) -> str | None:
     text = normalize_whitespace(value)
     if not text:
         return None
-
-    text = re.sub(r'\n+', '\n', text)
-    return text
+    return re.sub(r'\n+', '\n', text)
 
 
 def clean_biography(text: str | None) -> str | None:
-    text = flatten_text(text)
-    if not text:
+    flattened = flatten_text(text)
+    if not flattened:
         return None
-
-    text = re.sub(r'\s+', ' ', text).strip()
-    text = re.sub(r'\s+([,.;:!?])', r'\1', text)
-    text = re.sub(r'([,.;:!?])([A-Za-z])', r'\1 \2', text)
-
-    return text or None
+    return normalize_punctuation(flattened) or None
 
 
 def clean_research_interests(text: str | None) -> str | None:
-    text = normalize_whitespace(text)
-    if not text:
+    normalized = normalize_whitespace(text)
+    if not normalized:
         return None
 
-    text = split_concatenated_keywords(text)
-
-    if ';' in text or '\n' in text:
-        parts = split_keywords(text)
+    normalized = split_concatenated_keywords(normalized)
+    if ';' in normalized or '\n' in normalized:
+        parts = split_keywords(normalized)
         if parts:
             return '; '.join(parts)
 
-    text = flatten_text(text)
-    if not text:
+    flattened = flatten_text(normalized)
+    if not flattened:
         return None
-
-    text = re.sub(r'\s+([,.;:!?])', r'\1', text)
-    text = re.sub(r'([,.;:!?])([A-Za-z])', r'\1 \2', text)
-    return text
+    return normalize_punctuation(flattened)
 
 
 def build_profile(row: dict) -> dict:
@@ -236,13 +172,7 @@ def build_profile(row: dict) -> dict:
         ' '.join(
             filter(
                 None,
-                [
-                    bio,
-                    research_keywords,
-                    research_links,
-                    title,
-                    department,
-                ],
+                [bio, research_keywords, research_links, title, department],
             )
         )
     )
@@ -306,7 +236,6 @@ def main() -> None:
 
     for raw_row in rows[1:]:
         row = dict(zip(headers, raw_row))
-
         if not any(v is not None and str(v).strip() for v in raw_row):
             continue
 

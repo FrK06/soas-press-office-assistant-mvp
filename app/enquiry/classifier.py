@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import re
 
@@ -12,23 +12,28 @@ TOPIC_PATTERNS = {
         r'\bisrael\b',
         r'\bpalestine\b',
         r'\bsyria\b',
+        r'\byemen\b',
     ),
     'Africa': (
         r'\bafrica\b',
+        r'\bhorn of africa\b',
         r'\bsudan\b',
         r'\bethiopia\b',
         r'\bnigeria\b',
         r'\bkenya\b',
         r'\bghana\b',
+        r'\bzambia\b',
     ),
     'Migration': (
         r'\bmigration\b',
+        r'\bmigration routes?\b',
         r'\basylum\b',
         r'\brefugee\b',
         r'\bdiaspora\b',
         r'\bborder\b',
         r'\bdisplacement\b',
         r'\bforced migration\b',
+        r'\bborder governance\b',
     ),
     'Religion': (
         r'\breligion\b',
@@ -37,6 +42,7 @@ TOPIC_PATTERNS = {
         r'\bchristianity\b',
         r'\bbuddhism\b',
         r'\bhinduism\b',
+        r'\bblasphemy\b',
     ),
     'China': (
         r'\bchina\b',
@@ -50,6 +56,8 @@ TOPIC_PATTERNS = {
         r'\bfeminism\b',
         r'\bmasculinity\b',
         r'\bsexuality\b',
+        r'\bcare economy\b',
+        r'\bunpaid care\b',
     ),
     'Development': (
         r'\baid\b',
@@ -62,6 +70,14 @@ TOPIC_PATTERNS = {
         r'\bsustainable development\b',
         r'\bdevelopment finance\b',
         r'\bdevelopment partnerships\b',
+        r'\bclimate finance\b',
+        r'\bsovereign debt\b',
+        r'\bdebt distress\b',
+        r'\bdebt restructuring\b',
+        r'\bdebt workouts?\b',
+        r'\bimf\b',
+        r'\bpublic finance\b',
+        r'\bjust transition\b',
     ),
     'Politics': (
         r'\belection\b',
@@ -76,6 +92,11 @@ TOPIC_PATTERNS = {
         r'\btrade policy\b',
         r'\bregulatory governance\b',
         r'\bregulation\b',
+        r'\bsanctions\b',
+        r'\bstate capacity\b',
+        r'\bpost[- ]war\b',
+        r'\bpost[- ]conflict\b',
+        r'\bpolitical settlement\b',
     ),
 }
 

@@ -1,0 +1,9 @@
+{
+  "experiment": "E4 Groundedness / Evidence Support",
+  "status": "pending_manual_annotation",
+  "label": "cleaned_default_improved",
+  "dataset": "data\\evaluation\\benchmarks\\gold_test_set_100_cleaned.csv",
+  "annotation_sheet": "data\\evaluation\\focused\\_candidate_e4\\e4_groundedness_annotation_sheet.csv",
+  "manifest": "data\\evaluation\\groundedness_audit_cases.csv",
+  "next_step": "Complete annotation_label values as Supported, Partially Supported, or Unsupported, then run python -m app.evaluation.score_groundedness."
+}

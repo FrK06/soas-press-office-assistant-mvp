@@ -1,26 +1,26 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import re
 from typing import Iterable
 
 from app.config import settings
 from app.schemas import ProfileChunk, ProfileDocument
+from app.utils.text_cleaning import contains_meaningful_publication_text, normalize_punctuation, normalize_whitespace
 
 
 SECTION_ORDER = [
-    "biography",
-    "research_interests",
-    "publications",
+    'research_interests',
+    'biography',
+    'publications',
 ]
 
 
 def normalize_text(text: str) -> str:
-    text = text.replace("\r\n", "\n").replace("\r", "\n")
-    text = text.replace("\xa0", " ")
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n{3,}", "\n\n", text)
-    text = text.strip()
-    return text
+    normalized = normalize_whitespace(text) or ''
+    normalized = normalize_punctuation(normalized)
+    normalized = normalized.replace('\n\n', '\n')
+    normalized = re.sub(r'\s+', ' ', normalized.replace('\n', ' ')).strip()
+    return normalized
 
 
 def sentence_split(text: str) -> list[str]:
@@ -28,13 +28,8 @@ def sentence_split(text: str) -> list[str]:
     if not text:
         return []
 
-    # Preserve paragraph boundaries a little better
-    text = text.replace("\n", " ")
-
-    # Split on sentence endings followed by whitespace
-    sentences = re.split(r"(?<=[.!?])\s+", text)
-    sentences = [s.strip() for s in sentences if s.strip()]
-    return sentences
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    return [sentence.strip() for sentence in sentences if sentence.strip()]
 
 
 def simple_chunk_text(text: str, chunk_size: int | None = None, overlap: int | None = None) -> list[str]:
@@ -46,11 +41,9 @@ def simple_chunk_text(text: str, chunk_size: int | None = None, overlap: int | N
         return []
 
     chunks: list[str] = []
-    current = ""
-
+    current = ''
     for sentence in sentences:
-        candidate = sentence if not current else f"{current} {sentence}"
-
+        candidate = sentence if not current else f'{current} {sentence}'
         if len(candidate) <= chunk_size:
             current = candidate
             continue
@@ -58,12 +51,11 @@ def simple_chunk_text(text: str, chunk_size: int | None = None, overlap: int | N
         if current:
             chunks.append(current.strip())
 
-        # If a single sentence is too long, fall back to word-safe splitting
         if len(sentence) > chunk_size:
             words = sentence.split()
-            piece = ""
+            piece = ''
             for word in words:
-                next_piece = word if not piece else f"{piece} {word}"
+                next_piece = word if not piece else f'{piece} {word}'
                 if len(next_piece) <= chunk_size:
                     piece = next_piece
                 else:
@@ -80,20 +72,26 @@ def simple_chunk_text(text: str, chunk_size: int | None = None, overlap: int | N
     if overlap <= 0 or len(chunks) <= 1:
         return chunks
 
-    # Soft overlap: prepend the tail of the previous chunk to the next one
     overlapped: list[str] = [chunks[0]]
-    for i in range(1, len(chunks)):
-        prev = chunks[i - 1]
-        curr = chunks[i]
-
+    for index in range(1, len(chunks)):
+        prev = chunks[index - 1]
+        curr = chunks[index]
         tail = prev[-overlap:].strip()
         if tail and not curr.startswith(tail):
-            merged = f"{tail} {curr}".strip()
+            merged = f'{tail} {curr}'.strip()
             overlapped.append(merged[: chunk_size + overlap])
         else:
             overlapped.append(curr)
-
     return overlapped
+
+
+def publication_chunk_text(text: str) -> list[str]:
+    normalized = normalize_whitespace(text) or ''
+    if not normalized:
+        return []
+
+    pieces = [piece.strip() for piece in re.split(r'\n+|;\s+', normalized) if piece.strip()]
+    return pieces or [normalized]
 
 
 def iter_profile_sections(profile: ProfileDocument) -> Iterable[tuple[str, str]]:
@@ -103,20 +101,36 @@ def iter_profile_sections(profile: ProfileDocument) -> Iterable[tuple[str, str]]
             yield section, value
 
 
+def _keep_chunk(section: str, text: str) -> bool:
+    if section != 'publications':
+        return True
+    return contains_meaningful_publication_text(text)
+
+
+def _section_pieces(section: str, text: str) -> list[str]:
+    if section == 'publications':
+        return publication_chunk_text(text)
+    return simple_chunk_text(text)
+
+
 def build_chunks(profile: ProfileDocument) -> list[ProfileChunk]:
     chunks: list[ProfileChunk] = []
     index = 0
 
     for section, text in iter_profile_sections(profile):
-        for piece in simple_chunk_text(text):
-            cleaned_piece = normalize_text(piece)
+        for piece in _section_pieces(section, text):
+            raw_piece = normalize_whitespace(piece) or ''
+            if not raw_piece or not _keep_chunk(section, raw_piece):
+                continue
+
+            cleaned_piece = normalize_text(raw_piece)
             if not cleaned_piece:
                 continue
 
             index += 1
             chunks.append(
                 ProfileChunk(
-                    chunk_id=f"{profile.profile_id}-chunk-{index}",
+                    chunk_id=f'{profile.profile_id}-chunk-{index}',
                     profile_id=profile.profile_id,
                     name=profile.name,
                     department=profile.department,

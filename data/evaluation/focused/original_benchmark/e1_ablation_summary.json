@@ -1,0 +1,358 @@
+{
+  "experiment": "E1 Ablation",
+  "label": "original_benchmark",
+  "dataset": "data\\evaluation\\benchmarks\\gold_test_set_100_original.csv",
+  "baseline_reference": {
+    "n_cases": 100,
+    "top1_accuracy": 0.95,
+    "top3_accuracy": 0.97,
+    "top5_accuracy": 0.97,
+    "precision_at_3": 0.3966,
+    "mrr": 0.9583,
+    "coverage": 0.99,
+    "approval_proxy_rate": 0.97,
+    "mean_recommended_count": 2.67,
+    "mean_supporting_chunk_count": 3.26,
+    "recognised_outlet_rate": 0.6,
+    "manual_review_rate": 0.4,
+    "recommendation_concentration_top10": [
+      {
+        "expert": "Dr Lorena Lombardozzi",
+        "count": 7
+      },
+      {
+        "expert": "Dr Giuseppina Siciliano",
+        "count": 6
+      },
+      {
+        "expert": "Professor Shirin Rai",
+        "count": 5
+      },
+      {
+        "expert": "Professor Antonio Andreoni",
+        "count": 5
+      },
+      {
+        "expert": "Dr Dieter Wang",
+        "count": 5
+      },
+      {
+        "expert": "Dr Jonathan Acosta Smith",
+        "count": 5
+      },
+      {
+        "expert": "Professor Ulrich Volz",
+        "count": 5
+      },
+      {
+        "expert": "Dr Anandi Rao",
+        "count": 4
+      },
+      {
+        "expert": "Professor Awino Okech",
+        "count": 4
+      },
+      {
+        "expert": "Professor Ha-Joon Chang",
+        "count": 4
+      }
+    ]
+  },
+  "tradeoff_method": "Unweighted mean of Top-1, Top-3, Precision@3, and MRR.",
+  "overall_tradeoff_leader": {
+    "variant_key": "variant_b_topic_boosts",
+    "variant_label": "Variant B: retrieval aggregation plus topic boosts",
+    "tradeoff_score": 0.8187
+  },
+  "full_system_is_tradeoff_leader": false,
+  "variants": {
+    "variant_a_retrieval_only": {
+      "label": "Variant A: retrieval aggregation only",
+      "config": {
+        "enable_topic_boosts": false,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 100,
+        "top1_accuracy": 0.85,
+        "top3_accuracy": 0.89,
+        "top5_accuracy": 0.89,
+        "precision_at_3": 0.3066,
+        "mrr": 0.8683,
+        "coverage": 0.94,
+        "approval_proxy_rate": 0.89,
+        "mean_recommended_count": 1.32,
+        "mean_supporting_chunk_count": 1.85,
+        "recognised_outlet_rate": 0.6,
+        "manual_review_rate": 0.4,
+        "recommendation_concentration_top10": [
+          {
+            "expert": "Professor Shirin Rai",
+            "count": 5
+          },
+          {
+            "expert": "Professor Awino Okech",
+            "count": 4
+          },
+          {
+            "expert": "Grietje (River) Baars",
+            "count": 3
+          },
+          {
+            "expert": "Mr Ian D Edge",
+            "count": 3
+          },
+          {
+            "expert": "Dr Eleanor Newbigin",
+            "count": 2
+          },
+          {
+            "expert": "Dr Laura-Stella Enonchong",
+            "count": 2
+          },
+          {
+            "expert": "Dr Dieter Wang",
+            "count": 2
+          },
+          {
+            "expert": "Dr Yannis Dafermos",
+            "count": 2
+          },
+          {
+            "expert": "Dr Sara Stevano",
+            "count": 2
+          },
+          {
+            "expert": "Professor Scott Redford",
+            "count": 2
+          }
+        ]
+      },
+      "tradeoff_score": 0.7287,
+      "versus_full_system": {
+        "win": 0,
+        "loss": 11,
+        "tie": 89
+      }
+    },
+    "variant_b_topic_boosts": {
+      "label": "Variant B: retrieval aggregation plus topic boosts",
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": false,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 100,
+        "top1_accuracy": 0.95,
+        "top3_accuracy": 0.97,
+        "top5_accuracy": 0.97,
+        "precision_at_3": 0.3966,
+        "mrr": 0.9583,
+        "coverage": 0.99,
+        "approval_proxy_rate": 0.97,
+        "mean_recommended_count": 2.67,
+        "mean_supporting_chunk_count": 3.26,
+        "recognised_outlet_rate": 0.6,
+        "manual_review_rate": 0.4,
+        "recommendation_concentration_top10": [
+          {
+            "expert": "Dr Lorena Lombardozzi",
+            "count": 7
+          },
+          {
+            "expert": "Dr Giuseppina Siciliano",
+            "count": 6
+          },
+          {
+            "expert": "Professor Shirin Rai",
+            "count": 5
+          },
+          {
+            "expert": "Professor Antonio Andreoni",
+            "count": 5
+          },
+          {
+            "expert": "Dr Dieter Wang",
+            "count": 5
+          },
+          {
+            "expert": "Dr Jonathan Acosta Smith",
+            "count": 5
+          },
+          {
+            "expert": "Professor Ulrich Volz",
+            "count": 5
+          },
+          {
+            "expert": "Dr Anandi Rao",
+            "count": 4
+          },
+          {
+            "expert": "Professor Awino Okech",
+            "count": 4
+          },
+          {
+            "expert": "Professor Ha-Joon Chang",
+            "count": 4
+          }
+        ]
+      },
+      "tradeoff_score": 0.8187,
+      "versus_full_system": {
+        "win": 0,
+        "loss": 0,
+        "tie": 100
+      }
+    },
+    "variant_c_topic_and_media": {
+      "label": "Variant C: retrieval aggregation plus topic boosts and media-signal boost",
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": true,
+        "enable_diversity_penalty": false,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 100,
+        "top1_accuracy": 0.94,
+        "top3_accuracy": 0.97,
+        "top5_accuracy": 0.97,
+        "precision_at_3": 0.3966,
+        "mrr": 0.9533,
+        "coverage": 0.99,
+        "approval_proxy_rate": 0.97,
+        "mean_recommended_count": 2.69,
+        "mean_supporting_chunk_count": 3.29,
+        "recognised_outlet_rate": 0.6,
+        "manual_review_rate": 0.4,
+        "recommendation_concentration_top10": [
+          {
+            "expert": "Dr Lorena Lombardozzi",
+            "count": 7
+          },
+          {
+            "expert": "Dr Giuseppina Siciliano",
+            "count": 6
+          },
+          {
+            "expert": "Dr Jonathan Acosta Smith",
+            "count": 6
+          },
+          {
+            "expert": "Professor Shirin Rai",
+            "count": 5
+          },
+          {
+            "expert": "Professor Antonio Andreoni",
+            "count": 5
+          },
+          {
+            "expert": "Dr Dieter Wang",
+            "count": 5
+          },
+          {
+            "expert": "Professor Ulrich Volz",
+            "count": 5
+          },
+          {
+            "expert": "Dr Anandi Rao",
+            "count": 4
+          },
+          {
+            "expert": "Professor Awino Okech",
+            "count": 4
+          },
+          {
+            "expert": "Professor Ha-Joon Chang",
+            "count": 4
+          }
+        ]
+      },
+      "tradeoff_score": 0.815,
+      "versus_full_system": {
+        "win": 0,
+        "loss": 1,
+        "tie": 99
+      }
+    },
+    "variant_d_full_system": {
+      "label": "Variant D: full current system",
+      "config": {
+        "enable_topic_boosts": true,
+        "enable_media_signal_boost": true,
+        "enable_diversity_penalty": true,
+        "min_single_chunk_score": 0.55,
+        "min_final_score": 0.62
+      },
+      "metrics": {
+        "n_cases": 100,
+        "top1_accuracy": 0.95,
+        "top3_accuracy": 0.97,
+        "top5_accuracy": 0.97,
+        "precision_at_3": 0.3966,
+        "mrr": 0.9583,
+        "coverage": 0.99,
+        "approval_proxy_rate": 0.97,
+        "mean_recommended_count": 2.68,
+        "mean_supporting_chunk_count": 3.28,
+        "recognised_outlet_rate": 0.6,
+        "manual_review_rate": 0.4,
+        "recommendation_concentration_top10": [
+          {
+            "expert": "Dr Lorena Lombardozzi",
+            "count": 7
+          },
+          {
+            "expert": "Dr Giuseppina Siciliano",
+            "count": 6
+          },
+          {
+            "expert": "Dr Jonathan Acosta Smith",
+            "count": 6
+          },
+          {
+            "expert": "Professor Shirin Rai",
+            "count": 5
+          },
+          {
+            "expert": "Professor Antonio Andreoni",
+            "count": 5
+          },
+          {
+            "expert": "Dr Dieter Wang",
+            "count": 5
+          },
+          {
+            "expert": "Professor Ulrich Volz",
+            "count": 5
+          },
+          {
+            "expert": "Dr Anandi Rao",
+            "count": 4
+          },
+          {
+            "expert": "Professor Awino Okech",
+            "count": 4
+          },
+          {
+            "expert": "Professor Ha-Joon Chang",
+            "count": 4
+          }
+        ]
+      },
+      "tradeoff_score": 0.8187,
+      "versus_full_system": {
+        "win": 0,
+        "loss": 0,
+        "tie": 100
+      }
+    }
+  }
+}

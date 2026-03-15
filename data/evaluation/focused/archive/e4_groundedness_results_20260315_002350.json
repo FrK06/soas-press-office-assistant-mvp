@@ -1,0 +1,24 @@
+{
+  "experiment": "E4 Groundedness / Evidence Support",
+  "status": "completed",
+  "annotation_sheet": "data\\evaluation\\focused\\e4_groundedness_annotation_sheet.csv",
+  "manifest": "data\\evaluation\\groundedness_audit_cases.csv",
+  "n_cases": 30,
+  "n_top1_annotations": 30,
+  "n_top3_annotations": 83,
+  "primary_metrics": {
+    "supported_at_1": 0.6667,
+    "supported_at_3": 0.3976
+  },
+  "secondary_metrics": {
+    "supported_or_partially_supported_at_3": 0.8795
+  },
+  "error_metrics": {
+    "unsupported_rate": 0.1205
+  },
+  "label_counts": {
+    "Supported": 33,
+    "Partially Supported": 40,
+    "Unsupported": 10
+  }
+}
